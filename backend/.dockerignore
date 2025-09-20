@@ -1,0 +1,31 @@
+.git
+.gitignore
+
+# Python cache and build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info
+.eggs/
+build/
+dist/
+
+# Virtual environments
+venv/
+.env/
+*.env
+
+# Logs and temporary files
+*.log
+*.tmp
+*.out
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files themselves
+Dockerfile
+docker-compose*.yml
