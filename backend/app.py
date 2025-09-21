@@ -1,10 +1,12 @@
+import os
+import secrets
+import datetime
 from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-import os
-import secrets
-import datetime
+from resources.jwt_security import jwt_required_handler
+
 
 # Factory Pattern
 def create_app(db_url=None):
@@ -27,27 +29,7 @@ def create_app(db_url=None):
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(minutes=60)
 
     jwt = JWTManager(app)
-
-    @jwt.expired_token_loader
-    def expired_token_callback():
-        return (
-            jsonify({"message": "The token has expired", "error": "token_expired"}),
-            401
-        )
-
-    @jwt.invalid_token_loader
-    def invalid_token_callback():
-        return (
-            jsonify({"message": "Invalid token", "error": "invalid_token"}),
-            401
-        )
-
-    @jwt.unauthorized_loader
-    def missing_token_callback():
-        return (
-            jsonify({"message": "Missing token", "error": "missing_token"}),
-            401
-        )
+    jwt_required_handler(jwt)
 
     return app
 
