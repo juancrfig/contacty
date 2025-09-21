@@ -6,4 +6,4 @@ sqlalchemy
 marshmallow
 flask-jwt-extended
 Flask-Cors
-flask-bcrypt
+passlib

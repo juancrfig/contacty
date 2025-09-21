@@ -1,4 +1,4 @@
-from flask_bcrypt import generate_password_hash, check_password_hash
+from passlib.hash import pbkdf2_sha256
 from .db import db
 
 class User(db.Model):
@@ -10,10 +10,7 @@ class User(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-        self.password = self.hash_password(password)
-
-    def hash_password(self, password):
-        return generate_password_hash(password).decode('utf-8')
+        self.password = pbkdf2_sha256.hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return pbkdf2_sha256.verify(password, self.password)

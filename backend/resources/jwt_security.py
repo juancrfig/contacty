@@ -10,14 +10,14 @@ def jwt_required_handler(jwt):
         )
 
     @jwt.invalid_token_loader
-    def invalid_token_callback():
+    def invalid_token_callback(error):
         return (
             jsonify({"message": "Invalid token", "error": "invalid_token"}),
             401
         )
 
     @jwt.unauthorized_loader
-    def missing_token_callback():
+    def missing_token_callback(error):
         return (
             jsonify({"message": "Missing token", "error": "missing_token"}),
             401

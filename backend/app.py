@@ -3,7 +3,11 @@ from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from resources.jwt_security import jwt_required_handler
+from backend.resources.jwt_security import jwt_required_handler
+from backend.resources.contacts import blp as contacts_blueprint
+from backend.resources.users import blp as users_blueprint
+from backend.models.db import db
+
 
 
 # Factory Pattern
@@ -20,7 +24,7 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    # db.init_app(app)
+    db.init_app(app)
     api = Api(app)
 
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe(15)
@@ -28,6 +32,12 @@ def create_app(db_url=None):
 
     jwt = JWTManager(app)
     jwt_required_handler(jwt)
+
+    with app.app_context():
+        db.create_all()
+
+    api.register_blueprint(users_blueprint)
+    api.register_blueprint(contacts_blueprint)
 
     return app
 
