@@ -1,7 +1,5 @@
-import os
-import secrets
-import datetime
-from flask import Flask, jsonify
+import os, secrets, datetime
+from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
