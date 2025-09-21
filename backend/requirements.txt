@@ -1,4 +1,4 @@
-flask
+flask>=2.0.0
 flask_smorest
 python-dotenv
 flask-sqlalchemy
@@ -9,3 +9,5 @@ Flask-Cors
 passlib
 Flask-Mail
 Flask-Migrate
+gunicorn
+psycopg2-binary
