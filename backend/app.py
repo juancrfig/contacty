@@ -3,12 +3,15 @@ from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flask_mail import Mail, Message
+from flask_migrate import Migrate
 from backend.resources.jwt_security import jwt_required_handler
 from backend.resources.contacts import blp as contacts_blueprint
 from backend.resources.users import blp as users_blueprint
 from backend.models.db import db
 
 
+mail = Mail()
 
 # Factory Pattern
 def create_app(db_url=None):
@@ -24,7 +27,17 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
+    app.config["MAIL_PORT"] = 587
+    app.config["MAIL_USE_SSL"] = False
+    app.config["MAIL_USE_TLS"] = True
+    app.config["MAIL_USERNAME"] = os.getenv("BREVO_USERNAME")
+    app.config["MAIL_PASSWORD"] = os.getenv("BREVO_SMTP_KEY")
+    app.config["MAIL_DEFAULT_SENDER"] = os.getenv("BREVO_SENDER")
+
     db.init_app(app)
+    Migrate(app, db)
+    mail.init_app(app)
     api = Api(app)
 
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe(15)

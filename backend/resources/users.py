@@ -1,29 +1,65 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 from backend.models.db import db
 from backend.models.users import User
-from backend.resources.schemas import UserSchema
+from backend.resources.schemas import UserSchema, UserRegisterSchema, UserVerificationSchema
+from backend.services.email_service import send_verification_email, generate_verification_code
 
 
 blp = Blueprint("Users", "users", description="Operations on users")
 
 @blp.route("/register")
 class UserRegister(MethodView):
-    @blp.arguments(UserSchema)
+    @blp.arguments(UserRegisterSchema)
     def post(self, user_data):
         if User.query.filter(User.username == user_data["username"]).first():
             abort(409, message="Username already exists")
+        if User.query.filter(User.email == user_data["email"]).first():
+            abort(409, message="Email already exists")
+
+        verification_code = generate_verification_code()
 
         user = User(
             username=user_data["username"],
+            email=user_data["email"],
             password=user_data["password"]
         )
-        db.session.add(user)
-        db.session.commit()
+        user.verification_code = verification_code
 
-        return {"message": "User created successfully"}, 201
+        try:
+            db.session.add(user)
+            db.session.commit()
+
+            send_verification_email(user.email, verification_code)
+
+            return {"message": "User created. A verification code has been sent to your email!"}, 201
+        except Exception as e:
+            db.session.rollback()
+            abort(500, message=f"Failed to send verification email to {user.email}: {e}")
+
+
+@blp.route("/verify-email")
+class UserEmailVerification(MethodView):
+    @blp.arguments(UserVerificationSchema)
+    def post(self, user_data):
+        user = User.query.filter(User.username == user_data["username"]).first()
+
+        if not user:
+            abort(404, message="User not found")
+
+        if user.is_verified:
+            return {"message": "User already verified"}, 200
+
+        if user.verification_code and user.verification_code == user_data["verification_code"]:
+            user.is_verified = True
+            user.verification_code = None
+            db.session.commit()
+            return {"message": "Email verified successfully!"}, 200
+        else:
+            abort(400, message="Invalid verification code")
+
 
 @blp.route("/login")
 class UserLogin(MethodView):
@@ -48,13 +84,15 @@ class UserUser(MethodView):
     when we are manipulating data regarding the users.
     """
 
+    @jwt_required()
     @blp.response(200, UserSchema)
-    def get(self, user_id):
-        user = User.query.get_or_404(user_id)
+    def get(self, id):
+        user = User.query.get_or_404(id)
         return user
 
-    def delete(self, user_id):
-        user = User.query.get_or_404(user_id)
+    @jwt_required()
+    def delete(self, id):
+        user = User.query.get_or_404(id)
         db.session.delete(user)
         db.session.commit()
         return {"message": "User deleted"}, 200
