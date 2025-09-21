@@ -7,3 +7,5 @@ marshmallow
 flask-jwt-extended
 Flask-Cors
 passlib
+Flask-Mail
+Flask-Migrate
