@@ -5,3 +5,5 @@ flask-sqlalchemy
 sqlalchemy
 marshmallow
 flask-jwt-extended
+Flask-Cors
+passlib
