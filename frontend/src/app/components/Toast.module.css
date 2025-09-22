@@ -1,0 +1,60 @@
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 300px;
+    max-width: 90%;
+    color: white;
+    font-weight: 500;
+    animation: slideIn 1s ease-out forwards;
+}
+
+/* Specific styles for the error type */
+.error {
+    background-color: var(--color-danger); /* Red */
+}
+
+/* Specific styles for the success type */
+.success {
+    background-color: var(--color-accent); /* Green */
+}
+
+.message {
+    margin: 0;
+    margin-right: 16px;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 0 4px;
+}
+
+.closeButton:hover {
+    opacity: 1;
+}
+
+/* Animation keyframes for sliding in */
+@keyframes slideIn {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}

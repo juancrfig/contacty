@@ -1,80 +1,125 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 import styles from "@/app/(auth)/login/AuthForm.module.css";
+import Toast from "@/app/components/Toast";
 
 export default function LoginPage() {
-    // State to toggle between Login and Sign Up mode
+    const router = useRouter();
+
     const [isLoginMode, setIsLoginMode] = useState(true);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     const toggleMode = () => {
         setIsLoginMode((prevMode) => !prevMode);
+        setToast(null);
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Access form data
-        const formData = new FormData(event.currentTarget);
-        const username = formData.get("username");
-        const password = formData.get("password");
-        const email = formData.get("email");
+        setIsLoading(true);
+        setToast(null);
 
-        if (isLoginMode) {
-            console.log("Logging in with:", { username, password });
-            // Implement your login API call here
-        } else {
-            console.log("Signing up with:", { username, password, email });
-            // Implement your sign up API call here
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://myapi.local:5000';
+
+        try {
+            if (isLoginMode) {
+                const response = await fetch(`${apiUrl}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include',
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    setToast({ message: data.message || 'Invalid credentials.', type: 'error' });
+                    setIsLoading(false);
+                    return;
+                }
+
+                router.push('/');
+
+            } else {
+                const response = await fetch(`${apiUrl}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    setToast({ message: data.message || 'Sign up failed.', type: 'error' });
+                    setIsLoading(false);
+                    return;
+                }
+
+                // --- SIMPLIFIED LOGIC ---
+                // On successful signup, immediately switch to login mode and clear the form.
+                // The success toast and timeout have been removed as requested.
+                setIsLoginMode(true);
+                setUsername('');
+                setEmail('');
+                setPassword('');
+            }
+        } catch (err: any) {
+            setToast({ message: "An unexpected network error occurred.", type: 'error' });
+            setIsLoading(false);
+        } finally {
+            // This now correctly handles setting loading to false for all cases,
+            // including the simplified signup success path.
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.formCard}>
-                <h1 className={styles.title}>
-                    {isLoginMode ? "Welcome Back!" : "Create Account"}
-                </h1>
+        <>
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
 
-                {/* We add a class to the form based on the mode for CSS targeting */}
-                <form onSubmit={handleSubmit} className={isLoginMode ? styles.loginMode : styles.signupMode}>
-                    <input
-                        className={styles.input}
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        required
-                    />
+            <div className={styles.container}>
+                <div className={styles.formCard}>
+                    <h1 className={styles.title}>
+                        {isLoginMode ? "Welcome Back!" : "Create Account"}
+                    </h1>
 
-                    {/* The email input is always in the DOM for the animation to work */}
-                    <input
-                        className={`${styles.input} ${styles.emailInput}`}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        // The 'required' attribute is toggled with the mode
-                        required={!isLoginMode}
-                    />
+                    <form onSubmit={handleSubmit} className={isLoginMode ? styles.loginMode : styles.signupMode}>
+                        <input
+                            className={styles.input} type="text" name="username" placeholder="Username" required
+                            value={username} onChange={(e) => setUsername(e.target.value)} disabled={isLoading}
+                        />
+                        <input
+                            className={`${styles.input} ${styles.emailInput}`} type="email" name="email" placeholder="Email"
+                            required={!isLoginMode} value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading}
+                        />
+                        <input
+                            className={styles.input} type="password" name="password" placeholder="Password" required
+                            value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading}
+                        />
+                        <button type="submit" className={styles.button} disabled={isLoading}>
+                            {isLoading ? 'Processing...' : (isLoginMode ? "Login" : "Sign Up")}
+                        </button>
+                    </form>
 
-                    <input
-                        className={styles.input}
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                    />
-
-                    <button type="submit" className={styles.button}>
-                        {isLoginMode ? "Login" : "Sign Up"}
-                    </button>
-                </form>
-
-                <p className={styles.toggleText}>
-                    {isLoginMode ? "Don't have an account?" : "Already have an account?"}
-                    <button onClick={toggleMode} className={styles.toggleButton}>
-                        {isLoginMode ? "Sign Up" : "Login"}
-                    </button>
-                </p>
+                    <p className={styles.toggleText}>
+                        {isLoginMode ? "Don't have an account?" : "Already have an account?"}
+                        <button onClick={toggleMode} className={styles.toggleButton} disabled={isLoading}>
+                            {isLoginMode ? "Sign Up" : "Login"}
+                        </button>
+                    </p>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
