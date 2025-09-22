@@ -3,6 +3,7 @@ __pycache__/
 instance/
 migrations/
 .env
+.env.local
 
 
 /frontend/node_modules
