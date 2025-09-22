@@ -1,7 +1,10 @@
+import List from "@/app/components/List";
+
 export default function Home() {
     return (
         <main>
-            <h1>Hello, contacty!</h1>
+            <List showFavorites={true} />
+            <List showFavorites={false} />
         </main>
     )
 }

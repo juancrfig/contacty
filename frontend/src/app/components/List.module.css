@@ -1,0 +1,44 @@
+.cardList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cardListItem {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+    margin-top: 24px;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-right: 4%;
+}
+
+.greenLine {
+    flex: 1;
+    height: 2px;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+}
+
+.cardGrid {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.container {
+    padding: 3rem 5rem;
+}
