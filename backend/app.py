@@ -10,6 +10,21 @@ from backend.resources.contacts import blp as contacts_blueprint
 from backend.resources.users import blp as users_blueprint
 from backend.models.db import db
 
+# Load password from env
+PASSWORD = os.getenv("DB_PASS")
+
+# Debugging logs (safe)
+if PASSWORD:
+    print("🔎 Render Debug -> DB_PASS length:", len(PASSWORD))
+else:
+    print("❌ Render Debug -> DB_PASS not found in environment variables")
+
+DATABASE_URL = (
+    f"postgresql+psycopg2://postgres.dyinicotlnxqvpoasslg:{PASSWORD}"
+    "@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
+)
+
+print("🔎 Render Debug -> DATABASE_URL:", DATABASE_URL.replace(PASSWORD if PASSWORD else "", "*****"))
 
 mail = Mail()
 
@@ -24,7 +39,7 @@ def create_app(db_url=None):
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
@@ -53,4 +68,3 @@ def create_app(db_url=None):
     api.register_blueprint(contacts_blueprint)
 
     return app
-
