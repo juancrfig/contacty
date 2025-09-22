@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     metadataBase: new URL("https://contacty-sand.vercel.app/"),
     title: {
         template: '%s | Contacty',
-        default: 'Contacty - Simple Contact Manager',
+        default: 'Contacty',
     },
     description: "Manage your contacts easily with Contacty",
     icons: {
