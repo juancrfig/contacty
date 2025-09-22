@@ -3,3 +3,12 @@ __pycache__/
 instance/
 migrations/
 .env
+
+
+/frontend/node_modules
+
+# next.js
+frontend/.next/
+frontend/out/
+
+
