@@ -1,10 +1,13 @@
 import "./globals.css";
 import React, { ReactNode } from "react";
-import RootLayoutContent from "@/app/RootLayoutContent";
+import type { Metadata, Viewport } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
     metadataBase: new URL("https://contacty-sand.vercel.app/"),
-    title: "Contacty - Simple Contact Manager",
+    title: {
+        template: '%s | Contacty',
+        default: 'Contacty - Simple Contact Manager',
+    },
     description: "Manage your contacts easily with Contacty",
     icons: {
         icon: "/userIcon.png",
@@ -15,7 +18,7 @@ export const metadata = {
     openGraph: {
         title: "Contacty - Simple Contact Manager",
         description: "Manage your contacts easily with Contacty",
-        url: "contacty-sand.vercel.app/",
+        url: "https://contacty-sand.vercel.app/",
         siteName: "Contacty",
         images: [
             {
@@ -37,18 +40,16 @@ export const metadata = {
     },
 };
 
-export const viewport = "width=device-width, initial-scale=1";
-
-type RootLayoutProps = {
-    children: ReactNode;
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+
+export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
-        <body>
-        <RootLayoutContent>{children}</RootLayoutContent>
-        </body>
+        <body>{children}</body>
         </html>
     );
 }

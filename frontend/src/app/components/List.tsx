@@ -52,7 +52,7 @@ const List: React.FC<ListProps> = ({ showFavorites }) => {
             }
         };
 
-        fetchContacts();
+        // fetchContacts();
     }, []);
 
     const filteredContacts = showFavorites
