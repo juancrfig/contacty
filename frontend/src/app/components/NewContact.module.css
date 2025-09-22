@@ -1,0 +1,99 @@
+:root {
+    --light-green: #c1d72f;
+    --black: #464646;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(46, 46, 46, 0.336);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal form {
+    background: var(--light-green);
+    padding: 4rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.modal input[type="text"],
+.modal input[type="email"] {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    background: #e2eb8b;
+    font-size: 1rem;
+}
+
+.modal label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    color: var(--black);
+    flex-direction: row-reverse;
+}
+
+.modal input[type="checkbox"] {
+    margin-right: 0.5rem;
+    accent-color: var(--black); /* dark gray */
+}
+
+.modal button[type="submit"] {
+    background: #fff;
+    color: var(--black);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    margin: 0 auto;
+    display: block;
+    text-transform: uppercase;
+}
+
+.modal button[type="submit"]:hover {
+    background: #d3d3d3;
+}
+
+.modal button:not([type="submit"]) {
+    margin-top: 1rem;
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.form {
+    position: relative; /* Add this for positioning the close button */
+}
+
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem !important;
+    color: var(--black);
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+    line-height: 1;
+}
+
+.closeButton:hover {
+    color: #222;
+}

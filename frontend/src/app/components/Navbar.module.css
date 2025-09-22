@@ -1,0 +1,116 @@
+:root {
+    --light-green: #c1d72f;
+    --black: #464646;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdcdc;
+    width: 100%;
+    box-shadow: 0 0.5px 2px rgb(166, 166, 166);
+    overflow-x: auto;
+}
+
+/* ## Logo Placeholder ##
+  A simple grey box to represent the logo from the image.
+*/
+.logoPlaceholder {
+    width: clamp(60px, 20%, 150px);
+    flex-shrink: 0;
+    height: 45px;
+    border-radius: 10px;
+    box-shadow: 0 3px 2px grey;
+    background-color: #dcdcdc;
+}
+
+/* ## Navigation Links ##
+  Styles for the central navigation links.
+*/
+.navLinks {
+    display: flex;
+    gap: 4rem; /* Adjusts space between links */
+    align-items: center;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 600;
+    font-size: 1rem;
+    padding-bottom: 5px; /* Space for the underline effect */
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Modern hover effect: an underline that animates in */
+.navLinks a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--light-green); /* Green color */
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.navLinks a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* ## Active Link Style ##
+  This class is applied dynamically from the component to color the current page's link.
+*/
+.active {
+    color: var(--light-green) !important; /* Green color for the active tab */
+}
+
+/* ## New Button Style ##
+  Styles for the "+ NEW" button on the right.
+*/
+.newButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--light-green); /* Green background */
+    color: var(--black);
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase;
+}
+
+/* Hover effect: lift and add a stronger shadow */
+.newButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(162, 193, 60, 0.5);
+}
+
+.newButton::before {
+    content: "+";
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.newButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.plusIcon {
+    font-size: 1.2rem;
+    line-height: 1; /* Aligns the '+' icon better */
+}
