@@ -1,6 +1,7 @@
+from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required, set_access_cookies, unset_jwt_cookies
 
 from backend.models.db import db
 from backend.models.users import User
@@ -71,7 +72,12 @@ class UserLogin(MethodView):
 
         if user and user.check_password(user_data["password"]):
             access_token = create_access_token(identity=str(user.id))
-            return {"access_token": access_token}, 200
+
+            # Create a JSON response and set the HttpOnly cookie
+            response = jsonify({"message": "Login successful"})
+            set_access_cookies(response, access_token)
+
+            return response, 200
 
         abort(401, message="Invalid username or password")
 
@@ -96,3 +102,11 @@ class UserUser(MethodView):
         db.session.delete(user)
         db.session.commit()
         return {"message": "User deleted"}, 200
+
+
+@blp.route("/logout")
+class UserLogout(MethodView):
+    def post(self):
+        response = jsonify({"message": "Logout successful"})
+        unset_jwt_cookies(response)
+        return response, 200

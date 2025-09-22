@@ -10,28 +10,26 @@ from backend.resources.contacts import blp as contacts_blueprint
 from backend.resources.users import blp as users_blueprint
 from backend.models.db import db
 
+
 # Load password from env
 PASSWORD = os.getenv("DB_PASS")
-
-# Debugging logs (safe)
-if PASSWORD:
-    print("🔎 Render Debug -> DB_PASS length:", len(PASSWORD))
-else:
-    print("❌ Render Debug -> DB_PASS not found in environment variables")
-
 DATABASE_URL = (
     f"postgresql+psycopg2://postgres.dyinicotlnxqvpoasslg:{PASSWORD}"
     "@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
 )
-
-print("🔎 Render Debug -> DATABASE_URL:", DATABASE_URL.replace(PASSWORD if PASSWORD else "", "*****"))
 
 mail = Mail()
 
 # Factory Pattern
 def create_app(db_url=None):
     app = Flask(__name__)
-    CORS(app)
+
+    CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app"])
+
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_COOKIE_SECURE"] = True
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Contact App REST API"
     app.config["API_VERSION"] = "v1"
