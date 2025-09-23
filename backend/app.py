@@ -64,7 +64,6 @@ def create_app(db_url=None):
     api = Api(app)
 
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe(15)
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(minutes=60)
 
     jwt = JWTManager(app)
     jwt_required_handler(jwt)

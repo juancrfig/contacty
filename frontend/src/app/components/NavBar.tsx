@@ -14,7 +14,7 @@ export default function Navbar({ onNewContact }: NavbarProps) {
         <header className={styles.navbar}>
             <div className={styles.logoPlaceholder}></div>
             <nav className={styles.navLinks}>
-                <Link href="/" className={pathname === "/" ? styles.active : ""}>
+                <Link href="/overview" className={pathname === "/overview" ? styles.active : ""}>
                     Overview
                 </Link>
                 <Link

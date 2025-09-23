@@ -1,14 +1,9 @@
-:root {
-    --light-green: #c1d72f;
-    --black: #464646;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5rem;
-    background-color: #ffffff;
+    background-color: var(--background);
     border-bottom: 1px solid #dcdcdc;
     width: 100%;
     box-shadow: 0 0.5px 2px rgb(166, 166, 166);
@@ -38,7 +33,7 @@
 
 .navLinks a {
     text-decoration: none;
-    color: var(--black);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 1rem;
     padding-bottom: 5px; /* Space for the underline effect */
@@ -55,7 +50,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: var(--light-green); /* Green color */
+    background-color: var(--color-accent); /* Green color */
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
 }
@@ -69,7 +64,7 @@
   This class is applied dynamically from the component to color the current page's link.
 */
 .active {
-    color: var(--light-green) !important; /* Green color for the active tab */
+    color: var(--color-accent) !important; /* Green color for the active tab */
 }
 
 /* ## New Button Style ##
@@ -79,8 +74,8 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: var(--light-green); /* Green background */
-    color: var(--black);
+    background-color: var(--color-accent); /* Green background */
+    color: var(--text-primary);
     border: none;
     border-radius: 6px;
     padding: 0.4rem 1.25rem;
