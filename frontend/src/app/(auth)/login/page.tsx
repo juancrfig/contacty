@@ -4,9 +4,12 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import styles from "@/app/(auth)/login/AuthForm.module.css";
 import Toast from "@/app/components/Toast";
+import {usePathname} from "next/navigation";
 
 export default function LoginPage() {
     const router = useRouter();
+    const pathName = usePathname();
+
 
     const [isLoginMode, setIsLoginMode] = useState(true);
     const [username, setUsername] = useState('');
@@ -26,7 +29,7 @@ export default function LoginPage() {
         setToast(null);
 
 
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://myapi.local:5000';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
         try {
@@ -44,8 +47,8 @@ export default function LoginPage() {
                     setIsLoading(false);
                     return;
                 }
+                router.push('/overview');
 
-                router.push('/');
 
             } else {
                 const response = await fetch(`${apiUrl}/register`, {
@@ -62,9 +65,7 @@ export default function LoginPage() {
                     return;
                 }
 
-                // --- SIMPLIFIED LOGIC ---
                 // On successful signup, immediately switch to login mode and clear the form.
-                // The success toast and timeout have been removed as requested.
                 setIsLoginMode(true);
                 setUsername('');
                 setEmail('');
@@ -86,7 +87,7 @@ export default function LoginPage() {
                 <Toast
                     message={toast.message}
                     type={toast.type}
-                    onClose={() => setToast(null)}
+                    onCloseAction={() => setToast(null)}
                 />
             )}
 

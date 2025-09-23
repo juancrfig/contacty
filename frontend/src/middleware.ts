@@ -3,13 +3,13 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
 
-    const sessionToken = request.cookies.get('session_token')?.value;
+    const sessionToken = request.cookies.get('access_token_cookie')?.value;
     const { pathname } = request.nextUrl;
 
     const isAuthPage = pathname.startsWith('/login');
 
     if (sessionToken && isAuthPage) {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/overview', request.url));
     }
     if (!sessionToken && !isAuthPage) {
         return NextResponse.redirect(new URL('/login', request.url));

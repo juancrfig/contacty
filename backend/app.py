@@ -27,7 +27,8 @@ def create_app(db_url=None):
     CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app", "http://192.168.20.54:3000"])
 
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-    app.config["JWT_COOKIE_SECURE"] = False
+    app.config["JWT_COOKIE_SECURE"] = True
+    app.config["JWT_COOKIE_SAMESITE"] = "None"  # allow cookie in cross-site requests
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
