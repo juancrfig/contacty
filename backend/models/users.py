@@ -11,6 +11,9 @@ class User(db.Model):
     is_verified = db.Column(db.Boolean, default=False)
     verification_code = db.Column(db.String(6), nullable=True)
 
+    # One-to-many relationship (User → Contacts)
+    contacts = db.relationship("Contacts", back_populates="user", cascade="all, delete-orphan")
+
     def __init__(self, username, password, email):
         self.username = username
         self.password = pbkdf2_sha256.hash(password)
