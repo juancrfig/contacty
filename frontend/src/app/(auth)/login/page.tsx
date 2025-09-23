@@ -27,12 +27,12 @@ export default function LoginPage() {
         setToast(null);
 
 
-        const apiUrl = '/api/login';
+        const apiUrl = '/api';
 
 
         try {
             if (isLoginMode) {
-                const response = await fetch(`${apiUrl}`, {
+                const response = await fetch(`${apiUrl}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password }),
@@ -67,6 +67,8 @@ export default function LoginPage() {
                 setUsername('');
                 setEmail('');
                 setPassword('');
+
+                setToast({ message: "Success! Please, log in. A code has been sent to your email!", type: 'success' });
             }
         } catch (err: unknown) {
             setToast({ message: "An unexpected network error occurred.", type: 'error' });

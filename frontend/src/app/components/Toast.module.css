@@ -12,8 +12,8 @@
     z-index: 1000;
     min-width: 300px;
     max-width: 90%;
-    color: white;
-    font-weight: 500;
+    color: whitesmoke;
+    font-weight: 900;
     animation: slideIn 1s ease-out forwards;
 }
 
