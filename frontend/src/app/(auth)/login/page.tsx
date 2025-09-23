@@ -4,11 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import styles from "@/app/(auth)/login/AuthForm.module.css";
 import Toast from "@/app/components/Toast";
-import {usePathname} from "next/navigation";
 
 export default function LoginPage() {
     const router = useRouter();
-    const pathName = usePathname();
 
 
     const [isLoginMode, setIsLoginMode] = useState(true);
@@ -71,7 +69,7 @@ export default function LoginPage() {
                 setEmail('');
                 setPassword('');
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             setToast({ message: "An unexpected network error occurred.", type: 'error' });
             setIsLoading(false);
         } finally {

@@ -3,18 +3,24 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
 
-    const sessionToken = request.cookies.get('access_token_cookie')?.value;
     const { pathname } = request.nextUrl;
+    const hasSessionToken = request.cookies.has('sessionToken');
 
     const isAuthPage = pathname.startsWith('/login');
 
-    if (sessionToken && isAuthPage) {
-        return NextResponse.redirect(new URL('/overview', request.url));
+    // SCENARIO 1: User is on an authentication page
+    if (isAuthPage) {
+        if (hasSessionToken) {
+            return NextResponse.redirect(new URL('/overview', request.url));
+        }
+        // If they don't have a token, allow them to view the page
+        return NextResponse.next();
     }
-    if (!sessionToken && !isAuthPage) {
+    // SCENARIO 2: User is on a protected page
+    if (!hasSessionToken) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
-
+    // If they have a token, allow them to view the page
     return NextResponse.next();
 }
 

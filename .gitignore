@@ -12,4 +12,6 @@ migrations/
 frontend/.next/
 frontend/out/
 
+*.pem
+
 

@@ -24,13 +24,22 @@ mail = Mail()
 def create_app(db_url=None):
     app = Flask(__name__)
 
-    CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app", "http://192.168.20.54:3000"])
+    CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app", "https://192.168.20.54:3000"])
+
+    is_production = os.environ.get("FLASK_ENV") == "production"
 
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-    app.config["JWT_COOKIE_SECURE"] = True
-    app.config["JWT_COOKIE_SAMESITE"] = "None"  # allow cookie in cross-site requests
-    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
+    if is_production:
+        # Production settings
+        app.config["JWT_COOKIE_SECURE"] = True
+        app.config["JWT_COOKIE_SAMESITE"] = "None"
+    else:
+        # Development settings
+        app.config["JWT_COOKIE_SECURE"] = False
+        app.config["JWT_COOKIE_SAMESITE"] = "Lax"
+
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Contact App REST API"
     app.config["API_VERSION"] = "v1"
