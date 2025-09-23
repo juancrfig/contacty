@@ -28,7 +28,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 onClose={handleCloseModal}
                 onSave={handleSaveContact}
             />
-            <main>{children}</main>
+            <main>
+                {children}
+            </main>
         </>
     );
 }

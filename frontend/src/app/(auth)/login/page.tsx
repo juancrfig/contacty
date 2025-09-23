@@ -71,7 +71,7 @@ export default function LoginPage() {
                 setToast({ message: "Success! Please, log in. A code has been sent to your email!", type: 'success' });
             }
         } catch (err: unknown) {
-            setToast({ message: "An unexpected network error occurred.", type: 'error' });
+            setToast({ message: "An unexpected network error occurred. Please, try again in a moment.", type: 'error' });
             setIsLoading(false);
         } finally {
             // This now correctly handles setting loading to false for all cases,
