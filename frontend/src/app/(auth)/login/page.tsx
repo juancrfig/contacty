@@ -25,7 +25,9 @@ export default function LoginPage() {
         setIsLoading(true);
         setToast(null);
 
+
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://myapi.local:5000';
+
 
         try {
             if (isLoginMode) {

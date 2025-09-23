@@ -24,7 +24,7 @@ mail = Mail()
 def create_app(db_url=None):
     app = Flask(__name__)
 
-    CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app", "http://192.168.20.64:3000"])
+    CORS(app, supports_credentials=True, origins=["https://contacty-sand.vercel.app", "http://192.168.20.54:3000"])
 
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
     app.config["JWT_COOKIE_SECURE"] = False
