@@ -27,16 +27,15 @@ export default function LoginPage() {
         setToast(null);
 
 
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const apiUrl = '/api/login';
 
 
         try {
             if (isLoginMode) {
-                const response = await fetch(`${apiUrl}/login`, {
+                const response = await fetch(`${apiUrl}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password }),
-                    credentials: 'include',
                 });
 
                 if (!response.ok) {

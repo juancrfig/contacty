@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
 
     const { pathname } = request.nextUrl;
-    const hasSessionToken = request.cookies.has('sessionToken');
+    const hasSessionToken = request.cookies.has('access_token_cookie');
 
     const isAuthPage = pathname.startsWith('/login');
 

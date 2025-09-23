@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "dev:https": "node server.js"
+    "dev:https": "node server.ts"
   },
   "dependencies": {
     "next": "15.5.3",
