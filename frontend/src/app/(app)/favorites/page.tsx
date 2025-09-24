@@ -47,8 +47,8 @@ export default function OverviewPage() {
                 {favoriteContacts.map(contact => (
                     <ContactCard
                         key={contact.id} // Essential for list rendering in React
-                        first_name={contact.firstName}
-                        last_name={contact.lastName}
+                        first_name={contact.first_name}
+                        last_name={contact.last_name}
                         email={contact.email}
                         picture={contact.picture}
                         onRemove={() => handleRemoveContact(contact.id)}

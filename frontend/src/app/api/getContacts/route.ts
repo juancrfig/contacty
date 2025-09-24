@@ -44,14 +44,15 @@ export async function GET(request: NextRequest) {
         // Map snake_case keys from Flask API to camelCase for the frontend
         const formattedData = responseData.map((contact: Contact) => ({
             id: contact.id,
-            first_name: contact.firstName,
-            last_name: contact.lastName,
+            firstName: contact.first_name,
+            lastName: contact.last_name,
             email: contact.email,
             picture: contact.picture,
             favorite: contact.favorite,
         }));
 
         // Return the successful response with formatted data
+        console.log(formattedData);
         return NextResponse.json(formattedData, { status: 200 });
 
     } catch (error) {
