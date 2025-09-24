@@ -14,7 +14,7 @@ blp = Blueprint("contacts", __name__, description="Operations related to contact
 
 @blp.route("/test-auth")
 class AuthTest(MethodView):
-    @jwt_required():
+    @jwt_required()
     def get(self):
         """A simple endpoint to verify JWT authentication."""
         current_user_id = get_jwt_identity()
