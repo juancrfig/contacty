@@ -7,7 +7,7 @@ marshmallow
 flask-jwt-extended
 Flask-Cors
 passlib
-Flask-Mail
+requests
 Flask-Migrate
 gunicorn
 psycopg2-binary
