@@ -1,10 +1,11 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import "@/app/globals.css";
 import Navbar from "@/app/components/NavBar";
 import NewContact from "@/app/components/NewContact";
+import React, { useState } from "react";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function OverviewPage({ children }: { children: React.ReactNode }) {
     const [modalOpen, setModalOpen] = useState(false);
 
     const handleOpenModal = () => setModalOpen(true);
@@ -21,16 +22,16 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     };
 
     return (
-        <>
-            <Navbar onNewContact={handleOpenModal} />
-            <NewContact
-                open={modalOpen}
-                onClose={handleCloseModal}
-                onSave={handleSaveContact}
-            />
-            <main>
-                {children}
-            </main>
-        </>
+        <html lang="en">
+        <body>
+        <Navbar onNewContact={handleOpenModal} />
+        <NewContact
+            open={modalOpen}
+            onClose={handleCloseModal}
+            onSave={handleSaveContact}
+        />
+        <main>{children}</main>
+        </body>
+        </html>
     );
 }

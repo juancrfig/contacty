@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '@/app/components/List.module.css';
 import ContactCard from '@/app/components/ContactCard';
 import { useContacts } from '@/app/hooks/useContacts';
-import { Contact } from '@/app/types/Contact';
 
 // Defining the prop interface for type safety
 interface ListProps {
@@ -19,6 +18,7 @@ const List = ({ title }: ListProps) => {
     // Use custom hook to fetch contacts; fetchFavorites is true if title is "Favorites"
     const { contacts, error, handleRemoveContact } = useContacts(title === 'Favorites');
 
+
     return (
         <section className={styles.listContainer}>
             <header className={styles.header}>
@@ -30,8 +30,8 @@ const List = ({ title }: ListProps) => {
                 {contacts.map(contact => (
                     <ContactCard
                         key={contact.id}
-                        first_name={contact.first_name}
-                        last_name={contact.last_name}
+                        firstName={contact.firstName}
+                        lastName={contact.lastName}
                         email={contact.email}
                         picture={contact.picture}
                         onRemove={() => handleRemoveContact(contact.id)}
