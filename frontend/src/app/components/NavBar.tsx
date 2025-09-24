@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import styles from "./Navbar.module.css";
 
 interface NavbarProps {
@@ -9,7 +9,13 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onNewContact }: NavbarProps) {
+    const router = useRouter();
     const pathname = usePathname();
+
+    const handleLogout = () => {
+        // router.push('/login');
+    };
+
     return (
         <header className={styles.navbar}>
             <div className={styles.logoPlaceholder}></div>
@@ -31,6 +37,9 @@ export default function Navbar({ onNewContact }: NavbarProps) {
                 </Link>
                 <button className={styles.newButton} onClick={onNewContact}>
                     New
+                </button>
+                <button className={styles.logoutButton} onClick={handleLogout}>
+                    Log Out
                 </button>
             </nav>
         </header>

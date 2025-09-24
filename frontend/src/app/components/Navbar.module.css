@@ -105,6 +105,38 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* ## Logout Button Style ##
+  Styles for the Log Out button to the right of the New button.
+*/
+.logoutButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #ff4d4f; /* Red background for logout */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase;
+}
+
+/* Hover effect for logout button */
+.logoutButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 77, 79, 0.5);
+}
+
+.logoutButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .plusIcon {
     font-size: 1.2rem;
     line-height: 1; /* Aligns the '+' icon better */
