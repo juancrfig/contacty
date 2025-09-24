@@ -22,7 +22,6 @@ export default function OverviewPage({ children }: { children: React.ReactNode }
     };
 
     return (
-        <html lang="en">
         <body>
         <Navbar onNewContact={handleOpenModal} />
         <NewContact
@@ -32,6 +31,5 @@ export default function OverviewPage({ children }: { children: React.ReactNode }
         />
         <main>{children}</main>
         </body>
-        </html>
     );
 }
