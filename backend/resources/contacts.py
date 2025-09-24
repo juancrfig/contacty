@@ -4,7 +4,7 @@ from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from backend.models.db import db
 from backend.models.contacts import Contacts
-from backend.resources.schemas import ContactUpdateSchema
+from backend.resources.schemas import ContactUpdateSchema, ContactImageSchema
 from .schemas import ContactSchema
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -86,5 +86,31 @@ class Contact(MethodView):
 
         db.session.add(contact)
         db.session.commit()
+
+        return contact
+
+
+@blp.route("/contacts/<int:contact_id>/url")
+class ContactImage(MethodView):
+
+    @jwt_required()
+    @blp.arguments(ContactImageSchema)
+    @blp.response(200, ContactSchema)
+    def patch(self, data, contact_id):
+        """Updates a contact's profile image URL"""
+        contact = Contacts.query.get_or_404(contact_id)
+
+        # make sure the contact belongs to the logged-in user
+        current_user_id = int(get_jwt_identity())
+        if contact.user_id != current_user_id:
+            abort(403, message="You are not authorized to update this contact.")
+
+        contact.profile_image_url = data["url"]
+
+        try:
+            db.session.add(contact)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            abort(400, message=f"Error updating contact image: {e}")
 
         return contact
