@@ -44,8 +44,8 @@ export async function GET(request: NextRequest) {
         // Map snake_case keys from Flask API to camelCase for the frontend
         const formattedData = responseData.map((contact: Contact) => ({
             id: contact.id,
-            firstName: contact.firstName,
-            lastName: contact.lastName,
+            first_name: contact.firstName,
+            last_name: contact.lastName,
             email: contact.email,
             picture: contact.picture,
             favorite: contact.favorite,
