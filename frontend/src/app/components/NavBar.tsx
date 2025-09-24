@@ -12,8 +12,18 @@ export default function Navbar({ onNewContact }: NavbarProps) {
     const router = useRouter();
     const pathname = usePathname();
 
-    const handleLogout = () => {
-        // router.push('/login');
+    const handleLogout = async () => {
+        try {
+            const res = await fetch("/api/logout", { method: "POST" });
+            if (res.ok) {
+                router.refresh();   // forces re-evaluation of middleware
+                router.push("/login");
+            } else {
+                console.error("Logout failed");
+            }
+        } catch (err) {
+            console.error("Logout error", err);
+        }
     };
 
     return (
