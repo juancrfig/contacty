@@ -1,9 +1,11 @@
 "use client";
 
+import List from "@/app/components/List";
+
 export default function OverviewPage() {
     return (
         <div>
-            <h1>Favorites Page</h1>
+            <List title="Favorites"></List>
         </div>
     );
 }

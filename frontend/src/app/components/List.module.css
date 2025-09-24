@@ -1,44 +1,64 @@
-.cardList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+/* Main container for the List component.
+          Adjust padding as needed to fit your layout.
+        */
+.listContainer {
+    width: 90%;
+    margin: 1rem auto;
+    padding: 2rem 1rem;
 }
 
-.cardListItem {
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    position: relative;
-}
-
-.headerRow {
+/* Header container that uses flexbox to align the title and the decorative line.
+*/
+.header {
     display: flex;
     align-items: center;
-    margin-bottom: 32px;
-    margin-top: 24px;
+    margin-bottom: 2.5rem; /* Space between header and grid */
 }
 
+/* Styling for the title text.
+  white-space: nowrap ensures the title doesn't wrap, keeping the line clean.
+*/
 .title {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-right: 4%;
-}
-
-.greenLine {
-    flex: 1;
-    height: 2px;
-    background-color: var(--color-accent);
-    border-radius: 2px;
-}
-
-.cardGrid {
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
+    font-size: 2.25rem; /* 36px */
+    font-weight: 600;
+    color: #1f2937; /* A dark gray for good contrast */
     margin: 0;
+    padding-right: 1.5rem; /* Space between title and the green line */
+    white-space: nowrap;
 }
 
-.container {
-    padding: 3rem 5rem;
+/* The decorative green line.
+  flex-grow: 1 allows it to fill the remaining horizontal space.
+*/
+.line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: var(--color-accent); /* A vibrant lime green */
+}
+
+/* Grid container for the children (e.g., ContactCard components).
+  Defaults to a mobile-first 2-column layout.
+*/
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; /* Space between grid items */
+}
+
+/* Media query for tablet screens and wider.
+  Switches to a 3-column layout.
+*/
+@media (min-width: 768px) {
+    .gridContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Media query for desktop screens.
+  Switches to a 4-column layout as requested.
+*/
+@media (min-width: 1024px) {
+    .gridContainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
