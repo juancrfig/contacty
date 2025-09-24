@@ -88,3 +88,29 @@ class Contact(MethodView):
         db.session.commit()
 
         return contact
+
+
+@blp.route("/contacts/<int:contact_id>/url")
+class ContactImage(MethodView):
+
+    @jwt_required()
+    @blp.arguments({"url": str}, location="json")  # expects {"url": "..."}
+    @blp.response(200, ContactSchema)
+    def patch(self, data, contact_id):
+        """Updates a contact's profile image URL"""
+        contact = Contacts.query.get_or_404(contact_id)
+
+        # make sure the contact belongs to the logged-in user
+        current_user_id = get_jwt_identity()
+        if contact.user_id != current_user_id:
+            abort(403, message="You are not authorized to update this contact.")
+
+        contact.profile_image_url = data["url"]
+
+        try:
+            db.session.add(contact)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            abort(400, message=f"Error updating contact image: {e}")
+
+        return contact
