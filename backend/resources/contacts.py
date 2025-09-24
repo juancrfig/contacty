@@ -17,10 +17,12 @@ class ContactList(MethodView):
     @jwt_required()
     @blp.response(200, ContactSchema(many=True))
     def get(self):
-        """Retrieves all contacts, optionally filtering favorites"""
+        """Retrieves all contacts for the current user, optionally filtering favorites"""
         favorite_param = request.args.get("favorite")  # e.g., ?favorite=true
+        current_user_id = get_jwt_identity() # Get user id from JWT
 
-        query = Contacts.query
+        query = Contacts.query.filter_by(user_id=current_user_id)
+
         if favorite_param is not None:
             is_fav = favorite_param.lower() == "true"
             query = query.filter_by(favorite=True)
