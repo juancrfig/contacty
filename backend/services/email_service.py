@@ -20,5 +20,7 @@ def send_verification_email(to_email, verification_code):
             print(f"Sending verification email to {to_email}")
             return True
         except Exception as e:
-            print(f"Failed to send verification email to {to_email}: {e}")
+            import traceback
+            print("EMAIL ERROR:", e)
+            traceback.print_exc()
             return False
