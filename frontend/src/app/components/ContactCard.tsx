@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import styles from "./ContactCard.module.css";
+import styles from "@/app/components/ContactCard.module.css";
 
 interface ContactCardProps {
     name: string;
@@ -16,37 +15,39 @@ const ContactCard: React.FC<ContactCardProps> = ({
                                                      onRemove,
                                                  }) => {
     return (
-        <div className={styles.card}>
-            <div className={styles.avatarContainer}>
-                {/* Render the provided image or a placeholder */}
-                {picture ? (
-                    <Image
-                        src={picture}
-                        alt={`${name}'s avatar`}
-                        width={94}
-                        height={94}
-                        className={styles.avatar}
-                    />
-                ) : (
-                    <div className={styles.placeholderAvatar}>
-            <span className={styles.placeholderText}>
-              {name.charAt(0).toUpperCase()}
-            </span>
-                    </div>
-                )}
+        <>
+            <div className="card">
+                <div className="avatarContainer">
+                    {/* Render the provided image or a placeholder */}
+                    {picture ? (
+                        <img
+                            src={picture}
+                            alt={`${name}'s avatar`}
+                            width={94}
+                            height={94}
+                            className="avatar"
+                        />
+                    ) : (
+                        <div className="placeholderAvatar">
+              <span className="placeholderText">
+                {name ? name.charAt(0).toUpperCase() : ""}
+              </span>
+                        </div>
+                    )}
+                </div>
+
+                <div className="info">
+                    <h3 className="name">{name}</h3>
+                    <p className="email">{email}</p>
+                </div>
+
+                <hr className="divider" />
+
+                <button onClick={onRemove} className="removeButton">
+                    <span className="removeIcon">&times;</span> REMOVE
+                </button>
             </div>
-
-            <div className={styles.info}>
-                <h3 className={styles.name}>{name}</h3>
-                <p className={styles.email}>{email}</p>
-            </div>
-
-            <hr className={styles.divider} />
-
-            <button onClick={onRemove} className={styles.removeButton}>
-                <span className={styles.removeIcon}>&times;</span> REMOVE
-            </button>
-        </div>
+        </>
     );
 };
 

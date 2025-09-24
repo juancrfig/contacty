@@ -1,122 +1,103 @@
+/* Main card container */
 .card {
-    background-color: var(--bg-card);
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-    width: 280px;
+    background-color: #ffffff;
+    border-radius: 0.75rem; /* 12px */
+    padding: 1.5rem; /* 24px */
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.242);
-    border: 1px solid #e0e0e0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border: 1px solid #e5e7eb; /* light gray border */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
 }
 
-/* ## Avatar Styles ##
-  The outer ring is created using a pseudo-element.
-*/
+/* Container for the avatar image or placeholder */
 .avatarContainer {
-    position: relative;
-    margin-bottom: 1.5rem;
-    width: 110px;
-    height: 110px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: #f0f0f0; /* Inner circle background */
-    padding: 8px; /* Creates space for the outer ring */
-    box-sizing: border-box;
+    margin-bottom: 1rem; /* 16px */
 }
 
-/* The green highlight ring */
-.avatarContainer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 50%;
-    border: 4px solid var(--color-accent); /* Green color from previous example */
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.card:hover .avatarContainer::before {
-    transform: scale(1.05) rotate(15deg);
-}
-
+/* Styling for the avatar image */
 .avatar {
-    border-radius: 50%;
+    border-radius: 9999px; /* Make it a perfect circle */
+    border: 4px solid #84cc16; /* Same green as the list line */
+    width: 94px;
+    height: 94px;
     object-fit: cover;
 }
 
-.avatarPlaceholder {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
+/* Placeholder for when no image is provided */
+.placeholderAvatar {
+    width: 94px;
+    height: 94px;
+    border-radius: 9999px;
+    background-color: #f3f4f6; /* A light gray background */
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    border: 4px solid #d1d5db; /* A slightly darker gray for the border */
 }
 
-/* ## Contact Info ## */
+.placeholderText {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 600;
+    color: #4b5563; /* A medium gray */
+}
+
+/* Container for name and email */
 .info {
-    margin-bottom: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem; /* 16px */
+    word-break: break-all;
 }
 
 .name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    color: #1f2937;
     margin: 0 0 0.25rem 0;
 }
 
 .email {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
+    font-size: 0.875rem; /* 14px */
+    color: #6b7280;
     margin: 0;
 }
 
-/* ## Divider Line ## */
+/* The horizontal line separator */
 .divider {
     width: 100%;
     border: none;
-    height: 1px;
-    background-color: #eeeeee;
-    margin-bottom: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    margin-bottom: 1rem; /* 16px */
 }
 
-/* ## Remove Button ## */
+/* The remove button */
 .removeButton {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: var(--bg-card);
-    color: var(--color-danger);
-    border: 1px solid var(--color-danger);
-    border-radius: 8px;
-    padding: 0.6rem 1.5rem;
+    background-color: transparent;
+    border: 1px solid #ef4444; /* Red border */
+    color: #ef4444; /* Red text */
+    padding: 0.5rem 1rem; /* 8px 16px */
+    border-radius: 0.5rem; /* 8px */
+    font-size: 0.75rem; /* 12px */
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .removeButton:hover {
-    box-shadow: 0 2px 8px rgba(229, 115, 115, 0.4);
+    background-color: #ef4444;
+    color: #ffffff;
 }
 
 .removeIcon {
-    font-size: 1.2rem;
+    font-size: 1.25rem; /* 20px */
     line-height: 1;
 }
