@@ -9,6 +9,9 @@ class ContactSchema(Schema):
     favorite = fields.Boolean(required=True)
     profile_image_url = fields.Url(required=False)
 
+class ContactImageSchema(Schema):
+    url = fields.Url(required=True)
+
 class ContactUpdateSchema(Schema):
     email = fields.Email(required=True)
     favorite = fields.Boolean(required=False)
