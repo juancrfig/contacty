@@ -1,7 +1,7 @@
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from backend.models.db import db
 from backend.models.contacts import Contacts
 from backend.resources.schemas import ContactUpdateSchema
@@ -33,9 +33,12 @@ class ContactList(MethodView):
     def post(self, contact_data):
         """Creates a new contact"""
         # The database can enforce email uniqueness, which is more reliable
+        user_id = get_jwt_identity()
+
         if Contacts.query.filter(Contacts.email == contact_data["email"]).first():
             abort(409, message="A contact with that email already exists")
 
+        contact_data["user_id"] = user_id
         contact = Contacts(**contact_data)
 
         try:
