@@ -1,103 +1,67 @@
-/* Main card container */
+/* app/components/ContactCard.module.css */
 .card {
-    background-color: #ffffff;
-    border-radius: 0.75rem; /* 12px */
-    padding: 1.5rem; /* 24px */
     display: flex;
-    flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    border: 1px solid #e5e7eb; /* light gray border */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
 }
 
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
-}
-
-/* Container for the avatar image or placeholder */
 .avatarContainer {
-    margin-bottom: 1rem; /* 16px */
+    margin-right: 10px;
 }
 
-/* Styling for the avatar image */
 .avatar {
-    border-radius: 9999px; /* Make it a perfect circle */
-    border: 4px solid #84cc16; /* Same green as the list line */
-    width: 94px;
-    height: 94px;
-    object-fit: cover;
+    border-radius: 50%;
 }
 
-/* Placeholder for when no image is provided */
 .placeholderAvatar {
     width: 94px;
     height: 94px;
-    border-radius: 9999px;
-    background-color: #f3f4f6; /* A light gray background */
+    background-color: #e0e0e0;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px solid #d1d5db; /* A slightly darker gray for the border */
 }
 
 .placeholderText {
-    font-size: 2.25rem; /* 36px */
-    font-weight: 600;
-    color: #4b5563; /* A medium gray */
+    font-size: 2em;
+    color: #666;
 }
 
-/* Container for name and email */
 .info {
-    text-align: center;
-    margin-bottom: 1rem; /* 16px */
-    word-break: break-all;
+    flex-grow: 1;
 }
 
 .name {
-    font-size: 1.125rem; /* 18px */
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0 0 0.25rem 0;
+    margin: 0;
+    font-size: 1.2em;
 }
 
 .email {
-    font-size: 0.875rem; /* 14px */
-    color: #6b7280;
-    margin: 0;
+    margin: 5px 0 0;
+    color: #666;
 }
 
-/* The horizontal line separator */
 .divider {
-    width: 100%;
-    border: none;
-    border-top: 1px solid #e5e7eb;
-    margin-bottom: 1rem; /* 16px */
+    width: 1px;
+    height: 60px;
+    background-color: #ccc;
+    margin: 0 10px;
 }
 
-/* The remove button */
 .removeButton {
-    background-color: transparent;
-    border: 1px solid #ef4444; /* Red border */
-    color: #ef4444; /* Red text */
-    padding: 0.5rem 1rem; /* 8px 16px */
-    border-radius: 0.5rem; /* 8px */
-    font-size: 0.75rem; /* 12px */
-    font-weight: 600;
+    background: none;
+    border: none;
+    color: #d32f2f;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem; /* 8px */
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-.removeButton:hover {
-    background-color: #ef4444;
-    color: #ffffff;
+    font-size: 1em;
+    padding: 5px;
 }
 
 .removeIcon {
-    font-size: 1.25rem; /* 20px */
-    line-height: 1;
+    margin-right: 5px;
 }
