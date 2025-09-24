@@ -11,6 +11,15 @@ from sqlalchemy.exc import SQLAlchemyError
 
 blp = Blueprint("contacts", __name__, description="Operations related to contacts")
 
+
+@blp.route("/test-auth")
+class AuthTest(MethodView):
+    @jwt_required():
+    def get(self):
+        """A simple endpoint to verify JWT authentication."""
+        current_user_id = get_jwt_identity()
+        return {"message": "Authentication successful!", "user_id": current_user_id}
+
 @blp.route("/contacts")
 class ContactList(MethodView):
 
