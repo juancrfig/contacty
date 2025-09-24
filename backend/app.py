@@ -36,6 +36,12 @@ def create_app(db_url=None):
         app.config["JWT_COOKIE_SECURE"] = False
         app.config["JWT_COOKIE_SAMESITE"] = "Lax"
 
+
+    key = os.getenv("JWT_SECRET_KEY")
+    if not key:
+        raise ValueError("JWT_SECRET_KEY is not set in the environment")
+    app.config["JWT_SECRET_KEY"] = key
+
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Contact App REST API"
