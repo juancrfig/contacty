@@ -1,67 +1,115 @@
-/* app/components/ContactCard.module.css */
+
+/* Main card container */
 .card {
+    background-color: var(--background);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 25px -5px grey, 0 8px 10px -6px darkgray;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #fff;
+    max-width: 300px;
+    width: 100%;
+    font-family: 'Inter', sans-serif; /* A clean, modern font */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 1px solid whitesmoke;
 }
 
+/* Add a subtle lift effect on hover */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Container for the avatar to handle the outer border */
 .avatarContainer {
-    margin-right: 10px;
+    position: relative;
+    padding: 4px; /* Creates space for the border */
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--color-accent));
 }
 
+/* Main avatar image */
 .avatar {
     border-radius: 50%;
+    display: block;
+    border: 3px solid var(--background); /* Creates an inner border effect */
 }
 
+/* Placeholder for when no image is available */
 .placeholderAvatar {
     width: 94px;
     height: 94px;
-    background-color: #e0e0e0;
     border-radius: 50%;
+    background-color: var(--background);
     display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--background);
+}
+
+/* Hide the placeholder text from the original component */
+.placeholderText {
+    display: none;
+}
+
+
+/* Info section for name and email */
+.info {
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* Full name style */
+.name {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Email style */
+.email {
+    font-size: 0.875rem; /* 14px */
+    color: var(--text-primary);
+    margin: 4px 0 0;
+}
+
+/* Divider line style */
+.divider {
+    width: 85%;
+    height: 1px;
+    background-color: lightgray;
+    border: none;
+    margin: 24px 0;
+}
+
+/* Remove button styles */
+.removeButton {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.placeholderText {
-    font-size: 2em;
-    color: #666;
-}
-
-.info {
-    flex-grow: 1;
-}
-
-.name {
-    margin: 0;
-    font-size: 1.2em;
-}
-
-.email {
-    margin: 5px 0 0;
-    color: #666;
-}
-
-.divider {
-    width: 1px;
-    height: 60px;
-    background-color: #ccc;
-    margin: 0 10px;
-}
-
-.removeButton {
-    background: none;
-    border: none;
-    color: #d32f2f;
+    background-color: transparent;
+    color: var(--color-danger);
+    border: 2px solid var(--color-danger);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
     cursor: pointer;
-    font-size: 1em;
-    padding: 5px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
 }
 
+/* Hover effect: danger background + white text */
+.removeButton:hover {
+    background-color: var(--color-danger);
+    color: #fff;
+}
+
+/* The 'x' icon in the remove button */
 .removeIcon {
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: color 0.2s ease-in-out;
 }

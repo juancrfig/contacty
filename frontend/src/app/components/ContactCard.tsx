@@ -2,27 +2,28 @@ import React from "react";
 import styles from "@/app/components/ContactCard.module.css";
 
 interface ContactCardProps {
-    last_name: string,
+    lastName: string,
     email: string,
     picture?: string,
     onRemove: () => void,
-    first_name?: string
+    firstName?: string
 }
 
 const ContactCard: React.FC<ContactCardProps> = ({
-                                                     first_name,
+                                                     firstName,
                                                      email,
                                                      picture,
                                                      onRemove,
-                                                     last_name
+                                                     lastName
                                                  }) => {
+
     return (
         <div className={styles.card}>
             <div className={styles.avatarContainer}>
                 {picture ? (
                     <img
                         src={picture}
-                        alt={`${first_name} ${last_name}'s avatar`}
+                        alt={`${firstName} ${lastName}'s avatar`}
                         width={94}
                         height={94}
                         className={styles.avatar}
@@ -37,7 +38,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
             </div>
 
             <div className={styles.info}>
-                <h3 className={styles.name}>{first_name} {last_name}</h3>
+                <h3 className={styles.name}>{firstName} {lastName}</h3>
                 <p className={styles.email}>{email}</p>
             </div>
 
