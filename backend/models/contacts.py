@@ -8,6 +8,7 @@ class Contacts(db.Model):
     last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), nullable=False)
     favorite = db.Column(db.Boolean, nullable=False, default=False)
+    profile_image_url = db.Column(db.String(255), nullable=True)
 
     # 🔑 Foreign key to link to the User table
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

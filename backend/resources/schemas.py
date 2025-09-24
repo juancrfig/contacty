@@ -7,10 +7,12 @@ class ContactSchema(Schema):
     last_name = fields.Str(required=True)
     email = fields.Email(required=True)
     favorite = fields.Boolean(required=True)
+    profile_image_url = fields.Url(required=False)
 
 class ContactUpdateSchema(Schema):
     email = fields.Email(required=True)
     favorite = fields.Boolean(required=False)
+    profile_image_url = fields.Url(required=False)
 
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
