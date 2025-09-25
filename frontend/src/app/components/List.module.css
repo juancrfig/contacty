@@ -21,7 +21,7 @@
 .title {
     font-size: 2.25rem; /* 36px */
     font-weight: 600;
-    color: #1f2937; /* A dark gray for good contrast */
+    color: var(--text-primary); /* A dark gray for good contrast */
     margin: 0;
     padding-right: 1.5rem; /* Space between title and the green line */
     white-space: nowrap;
