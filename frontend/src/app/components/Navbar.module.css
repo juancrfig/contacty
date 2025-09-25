@@ -4,7 +4,7 @@
     align-items: center;
     padding: 1rem 5rem;
     background-color: var(--background);
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: 1px solid var(--text-secondary);
     width: 100%;
     box-shadow: 0 0.5px 2px rgb(166, 166, 166);
     overflow-x: auto;
@@ -18,8 +18,8 @@
     flex-shrink: 0;
     height: 45px;
     border-radius: 10px;
-    box-shadow: 0 3px 2px grey;
-    background-color: #dcdcdc;
+    box-shadow: 0 3px 2px var(--color-accent);
+    background-color: var(--color-accent);
 }
 
 /* ## Navigation Links ##
@@ -112,7 +112,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #ff4d4f; /* Red background for logout */
+    background-color: var(--color-danger); /* Red background for logout */
     color: #ffffff;
     border: none;
     border-radius: 6px;
