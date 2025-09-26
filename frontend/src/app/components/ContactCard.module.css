@@ -257,4 +257,19 @@
     }
 }
 
+.deleteButton {
+    color: var(--color-danger);
+    padding: 0.5rem;
+}
 
+.iconButton {
+    border: 2px solid;
+    margin: 0 2rem;
+    border-radius: 6px;
+    background-color: transparent;
+}
+
+.favoriteButton {
+    color: var(--color-accent);
+    padding: 0.5rem;
+}
