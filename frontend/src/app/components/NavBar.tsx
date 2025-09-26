@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./Navbar.module.css";
-import { useContactContext } from "@/app/context/ContactContext"; // 1. Import the context hook
 import { FaRegSave } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 
@@ -12,7 +11,6 @@ interface NavbarProps {
 export default function Navbar({ onNewContact }: NavbarProps) {
     const router = useRouter();
     const pathname = usePathname();
-    const { saveContactsToDB } = useContactContext(); // 2. Get the save function from the context
 
     const handleLogout = async () => {
         try {
@@ -43,10 +41,6 @@ export default function Navbar({ onNewContact }: NavbarProps) {
                 </Link>
                 <button className={styles.newButton} onClick={onNewContact}>
                     New
-                </button>
-                {/* 3. Add the new Save button before the Log Out button */}
-                <button className={styles.saveButton} onClick={saveContactsToDB}>
-                    <FaRegSave size={18}/>
                 </button>
                 <button className={styles.logoutButton} onClick={handleLogout}>
                     <FiLogOut size={18}/>

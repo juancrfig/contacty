@@ -257,9 +257,25 @@
     }
 }
 
+.deleteButton,
+.iconButton,
+.favoriteButton {
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
 .deleteButton {
     color: var(--color-danger);
     padding: 0.5rem;
+}
+
+.deleteButton:hover {
+    transform: scale(1.1);
+    color: var(--color-danger);
+}
+
+.deleteButton:active {
+    transform: scale(0.95);
 }
 
 .iconButton {
@@ -272,4 +288,12 @@
 .favoriteButton {
     color: var(--color-accent);
     padding: 0.5rem;
+}
+
+/* Icon button */
+.iconButton:hover {
+    transform: translateY(-2px);
+}
+.iconButton:active {
+    transform: translateY(0);
 }
