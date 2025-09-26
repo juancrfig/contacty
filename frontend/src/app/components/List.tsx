@@ -6,7 +6,7 @@ import ContactCard from '@/app/components/ContactCard';
 import { useContactContext } from '@/app/context/ContactContext'; // Import the new context hook
 
 interface ListProps {
-    title: 'Favorites' | 'Contacts';
+    title: 'Favorites' | 'Contact List';
 }
 
 const List = ({ title }: ListProps) => {
