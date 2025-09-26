@@ -75,9 +75,8 @@ class Contact(MethodView):
 
 
     @jwt_required()
-    @blp.arguments(ContactUpdateSchema)
     @blp.response(200, ContactSchema)
-    def patch(self, update_data, contact_id):
+    def patch(self, contact_id):
         """Updates an existing contact's favorite state by ID"""
         contact = Contacts.query.get_or_404(contact_id)
 
