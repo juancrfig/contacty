@@ -141,3 +141,30 @@
     font-size: 1.2rem;
     line-height: 1; /* Aligns the '+' icon better */
 }
+
+.saveButton {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adds space between the icon and text */
+    background-color: #28a745; /* A standard 'success' green */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.saveButton:hover {
+    background-color: #218838; /* A slightly darker green for hover */
+}
+
+/* Optional: Add flex to your logout button for consistency */
+.logoutButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* ... existing styles ... */
+}

@@ -6,7 +6,7 @@ export default function OverviewPage() {
     return (
         <div>
             <List title="Favorites"></List>
-            <List title="Contacts"></List>
+            <List title="Contact List"></List>
         </div>
     );
 }

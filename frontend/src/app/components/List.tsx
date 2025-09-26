@@ -1,24 +1,36 @@
-import React from 'react';
+'use client'; // This component now uses hooks
+
+import React, { useMemo } from 'react';
 import styles from '@/app/components/List.module.css';
 import ContactCard from '@/app/components/ContactCard';
-import { useContacts } from '@/app/hooks/useContacts';
+import { useContactContext } from '@/app/context/ContactContext'; // Import the new context hook
 
 interface ListProps {
-    title: 'Favorites' | 'Contacts';
+    title: 'Favorites' | 'Contact List';
 }
 
 const List = ({ title }: ListProps) => {
+    // Get all contacts and handlers from the global context
     const {
         contacts,
+        isLoading,
         error,
         handleRemoveContact,
         handleToggleFavorite,
         handleUpdatePicture
-    } = useContacts(title === 'Favorites');
+    } = useContactContext();
 
-    if (error) {
-        return <p className={styles.errorText}>Failed to load contacts: {error}</p>;
-    }
+    // Memoize the filtering logic to avoid re-calculating on every render
+    const filteredContacts = useMemo(() => {
+        if (title === 'Favorites') {
+            return contacts.filter(contact => contact.favorite);
+        }
+        // For the 'Contacts' list, now we only show non-favorites
+        return contacts.filter(contact => !contact.favorite);
+    }, [contacts, title]);
+
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p className={styles.errorText}>{error}</p>;
 
     return (
         <section className={styles.listContainer}>
@@ -27,7 +39,7 @@ const List = ({ title }: ListProps) => {
                 <div className={styles.line}></div>
             </header>
             <main className={styles.gridContainer}>
-                {contacts.map(contact => (
+                {filteredContacts.map(contact => (
                     <ContactCard
                         key={contact.id}
                         id={contact.id}
@@ -35,11 +47,7 @@ const List = ({ title }: ListProps) => {
                         lastName={contact.lastName}
                         email={contact.email}
                         picture={contact.picture}
-
-                        // Changed to 'favorite' to match the Contact type
                         favorite={contact.favorite}
-
-                        // Pass handlers directly
                         onRemove={handleRemoveContact}
                         onToggleFavorite={handleToggleFavorite}
                         onUpdatePicture={handleUpdatePicture}
