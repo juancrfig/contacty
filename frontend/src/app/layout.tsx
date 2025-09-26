@@ -1,6 +1,7 @@
 import "./globals.css";
 import React, { ReactNode } from "react";
 import type { Metadata, Viewport } from 'next';
+import { ContactProvider} from "@/app/context/ContactContext";
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://contacty-sand.vercel.app/"),
@@ -50,7 +51,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
         <body>
-        {children}
+            <ContactProvider>
+                {children}
+            </ContactProvider>
         </body>
         </html>
     );
