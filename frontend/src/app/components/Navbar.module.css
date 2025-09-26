@@ -18,8 +18,8 @@
     flex-shrink: 0;
     height: 45px;
     border-radius: 10px;
-    box-shadow: 0 3px 2px var(--color-accent);
-    background-color: var(--color-accent);
+    box-shadow: 0 3px 2px var(--background);
+    background-color: var(--background);
 }
 
 /* ## Navigation Links ##
