@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import styles from "@/app/components/ContactCard.module.css";
 import Modal from "@/app/components/Modal";
+import { FaHeart, FaTrash } from "react-icons/fa";
 
 type ActionVariant = 'overview' | 'contacts' | 'favorites';
 
@@ -56,14 +57,23 @@ const ContactCard: React.FC<ContactCardProps> = ({
         switch (variant) {
             case 'contacts':
                 return (
-                    <div className={styles.iconActions}>
-                        <button onClick={() => onToggleFavorite(id)} className={`${styles.iconButton} ${favorite ? styles.favoriteActive : ''}`}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                        </button>
-                        <button onClick={() => onRemove(id)} className={`${styles.iconButton} ${styles.deleteButton}`}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                        </button>
-                    </div>
+                    <>
+                        <hr className={styles.divider} />
+                        <div className={styles.iconActions}>
+                            <button
+                                onClick={() => onToggleFavorite(id)}
+                                className={`${styles.iconButton} ${styles.favoriteButton}`}
+                            >
+                                <FaHeart size={18} />
+                            </button>
+                            <button
+                                onClick={() => onRemove(id)}
+                                className={`${styles.iconButton} ${styles.deleteButton}`}
+                            >
+                                <FaTrash size={18} />
+                            </button>
+                        </div>
+                    </>
                 );
             case 'favorites':
                 return (
@@ -85,8 +95,11 @@ const ContactCard: React.FC<ContactCardProps> = ({
                             </button>
                         ) : (
                             <div className={styles.iconActions}>
-                                <button onClick={() => onToggleFavorite(id)} className={`${styles.iconButton} ${styles.favoriteInactive}`}>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                <button
+                                    onClick={() => onToggleFavorite(id)}
+                                    className={`${styles.iconButton} ${styles.favoriteButton}`}
+                                >
+                                    <FaHeart size={18} />
                                 </button>
                             </div>
                         )}
