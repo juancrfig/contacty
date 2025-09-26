@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import styles from "@/app/(auth)/login/AuthForm.module.css";
 import Toast from "@/app/components/Toast";
+import Spinner from "@/app/components/Spinner";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -110,7 +111,7 @@ export default function LoginPage() {
                             value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading}
                         />
                         <button type="submit" className={styles.button} disabled={isLoading}>
-                            {isLoading ? 'Processing...' : (isLoginMode ? "Login" : "Sign Up")}
+                            {isLoading ? <Spinner /> : (isLoginMode ? "Login" : "Sign Up")}
                         </button>
                     </form>
 

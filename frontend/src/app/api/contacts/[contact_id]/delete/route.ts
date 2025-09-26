@@ -3,10 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { contact_id: string } }
+    context: { params: Promise<{ contact_id: string }> }
 ) {
     try {
-        const { contact_id } = params;
+        const { contact_id } = await context.params;
         const cookieHeader = request.headers.get('Cookie');
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

@@ -47,20 +47,30 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
             setContacts(originalContacts);
             alert("Error: Could not delete contact.");
         }
-    }, []); // <-- Dependency array is now empty
+    }, [contacts]); // <-- Dependency array is now empty
 
     const handleToggleFavorite = useCallback(async (id: number) => {
         const originalContacts = [...contacts];
-        setContacts(prev => prev.map(c => c.id === id ? { ...c, favorite: !c.favorite } : c));
+        const contact = contacts.find(c => c.id === id);
+
+        if (!contact) return;
+
+        const updatedContact = { ...contact, favorite: !contact.favorite };
+        setContacts(prev => prev.map(c => c.id === id ? updatedContact : c));
         try {
-            const response = await fetch(`/api/contacts/${id}/favorite`, { method: 'PATCH' });
-            if (!response.ok) throw new Error("Failed to update favorite status.");
+            const response = await fetch(`/api/contacts/${id}/favorite`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ favorite: updatedContact.favorite }),
+            });
+
+            if (!response.ok) throw new Error("Failed to upload favorite status.");
         } catch (err) {
-            console.error(err);
+            console.log(err);
             setContacts(originalContacts);
             alert("Error: Could not update favorite status.");
         }
-    }, []); // <-- Dependency array is now empty
+    }, [contacts]);
 
     const handleUpdatePicture = useCallback(async (id: number, newUrl: string) => {
         const originalContacts = [...contacts];
@@ -77,7 +87,7 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
             setContacts(originalContacts);
             alert("Error: Could not update picture.");
         }
-    }, []); // <-- Dependency array is now empty
+    }, [contacts]); // <-- Dependency array is now empty
 
     const value = {
         contacts,

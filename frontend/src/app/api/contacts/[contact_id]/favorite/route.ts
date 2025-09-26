@@ -2,10 +2,11 @@ import {NextRequest, NextResponse} from 'next/server';
 
 export async function PATCH(
     request: NextRequest,
-    { params }: { params: { contact_id: string } }
+    context: {params: Promise<{contact_id: string}> }
 ) {
     try {
-        const {contact_id} = params;
+        const {contact_id} = await context.params;
+        const body = await request.json();
         const cookieHeader = request.headers.get('Cookie');
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -18,7 +19,8 @@ export async function PATCH(
             headers: {
                 'Content-Type': 'application/json',
                 ...(cookieHeader && {'Cookie': cookieHeader})
-            }
+            },
+            body: JSON.stringify(body)
         });
 
         const responseData = await apiResponse.json();
