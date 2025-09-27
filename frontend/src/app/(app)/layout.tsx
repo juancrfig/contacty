@@ -17,6 +17,7 @@ export default function OverviewPage({ children }: { children: React.ReactNode }
         lastName: string;
         email: string;
         favorite: boolean;
+        picture?: string;
     }) => {
         setModalOpen(false);
     };
