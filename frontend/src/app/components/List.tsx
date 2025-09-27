@@ -5,6 +5,7 @@ import styles from '@/app/components/List.module.css';
 import ContactCard from '@/app/components/ContactCard';
 import { useContactContext } from '@/app/context/ContactContext'; // Import the new context hook
 import { usePathname } from 'next/navigation';
+import Spinner from '@/app/components/Spinner';
 
 interface ListProps {
     title: 'Favorites' | 'Contact List';
@@ -38,7 +39,7 @@ const List = ({ title }: ListProps) => {
         return contacts.filter(contact => contact && !contact.favorite);
     }, [contacts, title]);
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Spinner />;
     if (error) return <p className={styles.errorText}>{error}</p>;
 
     return (

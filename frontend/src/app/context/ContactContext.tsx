@@ -13,7 +13,8 @@ interface ContactContextType {
         firstName: string;
         lastName: string;
         email: string;
-        favorite: boolean;
+        favorite: boolean,
+        picture: string
     }) => Promise<void>;
     handleRemoveContact: (id: number) => void;
     handleToggleFavorite: (id: number) => void;
@@ -79,8 +80,23 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
         lastName: string;
         email: string;
         favorite: boolean;
+        picture: string;
     })=> {
+        // 1. Create a temporary contact with a unique temporary ID
+        // We'll use this to identify it in the UI before we get the real ID from the server
+        const tempId = Date.now();
+        const tempContact: Contact = {
+            ...contactData,
+            id: tempId,
+            picture: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
+        };
+        // 2. Optimistically update the UI immediately with the temporary contact
+        setContacts(prev => [...prev, tempContact]);
+
         try {
+            contactData.picture = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
+            console.log(contactData);
+            // 3. Send the request to the server in the background
             const response = await fetch('/api/createContact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -94,17 +110,23 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
 
             const rawContact = await response.json();
 
-            const newContact = {
+            // 4. Once successful, create the final contact object with the real ID from the server
+            const finalContact = {
                 id: rawContact.id,
                 firstName: rawContact.first_name,
                 lastName: rawContact.last_name,
                 email: rawContact.email,
-                favorite: rawContact.favorite
+                favorite: rawContact.favorite,
+                picture: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
             };
 
-            setContacts(prev => [...prev, newContact]);
+            // 5. Swap the temporary contact with the fina one in the state
+            setContacts(prev => prev.map(c => (c.id === tempId ? finalContact: c)));
+
         } catch (err) {
-            console.log(err)
+            // 6. If API call fails, alert the user and roll back the optimistic update
+            alert(`Error: Could not create contact. ${err instanceof Error ? err.message : 'Please try again'}`);
+            setContacts(prev => prev.filter(c => c.id !== tempId));
         }
     }, []);
 
