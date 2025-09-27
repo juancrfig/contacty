@@ -3,6 +3,7 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import { Contact } from '@/app/types/Contact';
 import {useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 
 interface ContactContextType {
     contacts: Contact[];
@@ -26,40 +27,52 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const pathname = usePathname();
 
 
     useEffect(() => {
+        // Async's function definition for data fetching
         const loadContacts = async () => {
             try {
                 setIsLoading(true);
                 const response = await fetch('/api/getContacts');
                 if (response.status === 401) {
                     try {
-                        const res = await fetch("/api/logout", { method: "POST" });
+                        const res = await fetch('/api/logout', {method: "POST"});
                         if (res.ok) {
-                            router.refresh();
-                            router.push("/login");
+                          router.push("/login");
                         } else {
                             console.error("Logout failed");
                         }
                     } catch (err) {
                         console.error("Logout error", err);
                     }
+                    // Return early after handling 401 to prevent futher errors
+                    return;
                 }
                 if (!response.ok) {
-                    console.log("Failure: ", response)
-                    throw new Error('Failed to fetch contacts from API');
+                    console.log("Failure: ", response);
+                    throw new Error('Failure to fetch contacts from API');
                 }
                 const data: Contact[] = await response.json();
                 setContacts(data);
+                setHasLoaded(true);
             } catch (err) {
-                setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+                setError(err instanceof Error ? err.message : 'An unknown error occurred');
             } finally {
                 setIsLoading(false);
             }
         };
-        loadContacts();
-    }, []);
+
+        if (pathname !== '/login' && !hasLoaded) {
+            loadContacts();
+        } else if (pathname === '/login') {
+            setContacts([]);
+            setHasLoaded(false);
+            setIsLoading(false);
+        }
+    }, [pathname, hasLoaded]);
 
     const handleAddContact = useCallback(async (contactData: {
         firstName: string;
