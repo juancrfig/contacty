@@ -1,6 +1,6 @@
 'use client'; // This component now uses hooks
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/app/components/List.module.css';
 import ContactCard from '@/app/components/ContactCard';
 import { useContactContext } from '@/app/context/ContactContext'; // Import the new context hook
@@ -52,6 +52,12 @@ const List = ({ title }: ListProps) => {
         const indexOfFirstContact = indexOfLastContact - CONTACTS_PER_PAGE;
         return filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
     }, [currentPage, filteredContacts]);
+
+    useEffect(() => {
+        if (currentContacts.length === 0 && currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    }, [currentContacts, currentPage]);
 
     if (isLoading) return <Spinner />;
     if (error) return <p className={styles.errorText}>{error}</p>;
