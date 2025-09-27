@@ -62,3 +62,38 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+
+/* === Minimalist Pagination Styles === */
+
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    align-items: center;
+    padding: 1rem 0;
+    margin-top: 1rem;
+}
+
+.pageInfo {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-right: 1rem; /* Space between text and buttons */
+}
+
+.pageButton {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.75rem; /* Makes the < > symbols larger */
+    line-height: 1;
+    padding: 0 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.pageButton:disabled {
+    color: var(--background); /* Gray color for disabled state */
+    cursor: not-allowed;
+}
