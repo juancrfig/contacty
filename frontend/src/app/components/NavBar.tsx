@@ -3,10 +3,13 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { FaRegSave } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import React from "react";
+import {useContactContext} from "@/app/context/ContactContext";
 
 interface NavbarProps {
     onNewContact: () => void;
 }
+
 
 export default function Navbar({ onNewContact }: NavbarProps) {
     const router = useRouter();

@@ -2,11 +2,18 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import { Contact } from '@/app/types/Contact';
+import {useRouter} from "next/navigation";
 
 interface ContactContextType {
     contacts: Contact[];
     isLoading: boolean;
     error: string | null;
+    handleAddContact: (contactData: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        favorite: boolean;
+    }) => Promise<void>;
     handleRemoveContact: (id: number) => void;
     handleToggleFavorite: (id: number) => void;
     handleUpdatePicture: (id: number, newUrl: string) => void;
@@ -15,16 +22,34 @@ interface ContactContextType {
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
 
 export const ContactProvider = ({ children }: { children: ReactNode }) => {
+    const router = useRouter();
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
 
     useEffect(() => {
         const loadContacts = async () => {
             try {
                 setIsLoading(true);
                 const response = await fetch('/api/getContacts');
-                if (!response.ok) throw new Error('Failed to fetch contacts from API');
+                if (response.status === 401) {
+                    try {
+                        const res = await fetch("/api/logout", { method: "POST" });
+                        if (res.ok) {
+                            router.refresh();
+                            router.push("/login");
+                        } else {
+                            console.error("Logout failed");
+                        }
+                    } catch (err) {
+                        console.error("Logout error", err);
+                    }
+                }
+                if (!response.ok) {
+                    console.log("Failure: ", response)
+                    throw new Error('Failed to fetch contacts from API');
+                }
                 const data: Contact[] = await response.json();
                 setContacts(data);
             } catch (err) {
@@ -34,6 +59,40 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
             }
         };
         loadContacts();
+    }, []);
+
+    const handleAddContact = useCallback(async (contactData: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        favorite: boolean;
+    })=> {
+        try {
+            const response = await fetch('/api/createContact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(contactData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create contact');
+            }
+
+            const rawContact = await response.json();
+
+            const newContact = {
+                id: rawContact.id,
+                firstName: rawContact.first_name,
+                lastName: rawContact.last_name,
+                email: rawContact.email,
+                favorite: rawContact.favorite
+            };
+
+            setContacts(prev => [...prev, newContact]);
+        } catch (err) {
+            console.log(err)
+        }
     }, []);
 
     const handleRemoveContact = useCallback(async (id: number) => {
@@ -96,6 +155,7 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
         handleRemoveContact,
         handleToggleFavorite,
         handleUpdatePicture,
+        handleAddContact
     };
 
     return <ContactContext.Provider value={value}>{children}</ContactContext.Provider>;

@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "@/app/components/NewContact.module.css";
 import Toast from "@/app/components/Toast";
+import Spinner from "@/app/components/Spinner";
 
 
 interface NewContactProps {
@@ -16,12 +17,13 @@ interface NewContactProps {
 }
 
 
-const NewContact: React.FC<NewContactProps> = ({ open, onClose }) => {
+const NewContact: React.FC<NewContactProps> = ({ open, onClose, onSave }) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [favorite, setFavorite] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -44,30 +46,13 @@ const NewContact: React.FC<NewContactProps> = ({ open, onClose }) => {
             return;
         }
 
-        try {
-            const res = await fetch("/api/createContact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                // FIX: Send camelCase keys (firstName, lastName) to match frontend state and Next.js route destructuring
-                body: JSON.stringify({ firstName, lastName, email, favorite }),
-            });
+        onSave({ firstName, lastName, email, favorite });
 
-            if (!res.ok) {
-                // Read the error message from the response body for better debugging
-                const errorData = await res.json();
-                setToast({ message: errorData.message || "Failed to create contact", type: "error" });
-                return;
-            }
-
-            setToast({ message: "Contact created successfully!", type: "success" });
-            onClose();
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setFavorite(false);
-        } catch (error) {
-            setToast({ message: `Error creating contact: ${error}`, type: "error" });
-        }
+        onClose();
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setFavorite(false);
     };
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -116,7 +101,7 @@ const NewContact: React.FC<NewContactProps> = ({ open, onClose }) => {
                         />
                         Enable like favorite
                     </label>
-                    <button type="submit">Save</button>
+                    {isLoading ? <Spinner /> : <button type="submit">Save</button>}
                 </form>
             </div>
 

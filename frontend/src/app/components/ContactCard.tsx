@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import styles from "@/app/components/ContactCard.module.css";
 import Modal from "@/app/components/Modal";
-import { FaHeart, FaTrash } from "react-icons/fa";
+import {FaHeart, FaTrash, FaTimes } from "react-icons/fa";
 
 type ActionVariant = 'overview' | 'contacts' | 'favorites';
 
@@ -59,7 +59,23 @@ const ContactCard: React.FC<ContactCardProps> = ({
                 return (
                     <>
                         <hr className={styles.divider} />
-                        <div className={styles.iconActions}>
+                        {favorite ? (
+                            <div className={styles.iconActions}>
+                                <button
+                                    onClick={() => onToggleFavorite(id)}
+                                    className={`${styles.iconButton} ${styles.exButton}`}
+                                >
+                                   <FaTimes size={18} />
+                                </button>
+                                <button
+                                    onClick={() => onRemove(id)}
+                                    className={`${styles.iconButton} ${styles.deleteButton}`}
+                                >
+                                    <FaTrash size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className={styles.iconActions}>
                             <button
                                 onClick={() => onToggleFavorite(id)}
                                 className={`${styles.iconButton} ${styles.favoriteButton}`}
@@ -72,14 +88,15 @@ const ContactCard: React.FC<ContactCardProps> = ({
                             >
                                 <FaTrash size={18} />
                             </button>
-                        </div>
+                            </div>
+                        )}
                     </>
                 );
             case 'favorites':
                 return (
                     <>
                         <hr className={styles.divider} />
-                        <button onClick={() => onRemove(id)} className={styles.removeButton}>
+                        <button onClick={() => onToggleFavorite(id)} className={styles.removeButton}>
                             <span className={styles.removeIcon}>&times;</span> REMOVE
                         </button>
                     </>
@@ -90,7 +107,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
                     <>
                         <hr className={styles.divider} />
                         {favorite ? ( // Changed from isFavorite
-                            <button onClick={() => onRemove(id)} className={styles.removeButton}>
+                            <button onClick={() => onToggleFavorite(id)} className={styles.removeButton}>
                                 <span className={styles.removeIcon}>&times;</span> REMOVE
                             </button>
                         ) : (
