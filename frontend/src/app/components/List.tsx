@@ -1,16 +1,21 @@
 'use client'; // This component now uses hooks
 
-import React, { useMemo } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/app/components/List.module.css';
 import ContactCard from '@/app/components/ContactCard';
 import { useContactContext } from '@/app/context/ContactContext'; // Import the new context hook
 import { usePathname } from 'next/navigation';
+import Spinner from '@/app/components/Spinner';
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 interface ListProps {
     title: 'Favorites' | 'Contact List';
 }
 
 const List = ({ title }: ListProps) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const CONTACTS_PER_PAGE = 8;
+
     // Get all contacts and handlers from the global context
     const {
         contacts,
@@ -36,9 +41,25 @@ const List = ({ title }: ListProps) => {
         }
         // For the 'Contacts' list, now we only show non-favorites
         return contacts.filter(contact => contact && !contact.favorite);
+
+
+
     }, [contacts, title]);
 
-    if (isLoading) return <p>Loading...</p>;
+    const totalPages = Math.ceil(filteredContacts.length / CONTACTS_PER_PAGE);
+    const currentContacts = useMemo(() => {
+        const indexOfLastContact = currentPage * CONTACTS_PER_PAGE;
+        const indexOfFirstContact = indexOfLastContact - CONTACTS_PER_PAGE;
+        return filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
+    }, [currentPage, filteredContacts]);
+
+    useEffect(() => {
+        if (currentContacts.length === 0 && currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    }, [currentContacts, currentPage]);
+
+    if (isLoading) return <Spinner />;
     if (error) return <p className={styles.errorText}>{error}</p>;
 
     return (
@@ -48,7 +69,7 @@ const List = ({ title }: ListProps) => {
                 <div className={styles.line}></div>
             </header>
             <main className={styles.gridContainer}>
-                {filteredContacts.map(contact => (
+                {currentContacts.map(contact => (
                     <ContactCard
                         key={contact.id}
                         id={contact.id}
@@ -63,6 +84,29 @@ const List = ({ title }: ListProps) => {
                     />
                 ))}
             </main>
+            {totalPages > 1 && (
+                <footer className={styles.pagination}>
+                    <span className={styles.pageInfo}>
+                        {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className={styles.pageButton}
+                    >
+                       <FiArrowLeft />
+                    </button>
+                    <span className={styles.pageInfo}>
+                    </span>
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className={styles.pageButton}
+                    >
+                        <FiArrowRight />
+                    </button>
+                </footer>
+            )}
         </section>
     );
 };

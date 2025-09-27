@@ -1,3 +1,4 @@
+/* Modal overlay */
 .modal {
     position: fixed;
     top: 0;
@@ -11,16 +12,17 @@
     z-index: 1000;
 
     opacity: 0;
-    animation: fadeIn 1s ease forwards;
+    animation: fadeIn 0.6s ease forwards;
 }
 
 .modal.closing {
-    animation: fadeOut 1s ease forwards;
+    animation: fadeOut 0.6s ease forwards;
 }
 
+/* Modal form */
 .modal form {
-    background: var(--color-accent);
-    padding: 5rem; /* More padding for spacious feel */
+    background: var(--bg-form);
+    padding: 5rem 3rem;
     border-radius: 18px;
     display: flex;
     flex-direction: column;
@@ -28,15 +30,15 @@
     max-width: 460px;
 
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
 
     transform: translateY(30px);
     opacity: 0;
-    animation: slideUp 1s ease forwards 0.1s;
+    animation: slideUp 0.6s ease forwards 0.1s;
 }
 
 .modal.closing form {
-    animation: slideDown 1s ease forwards;
+    animation: slideDown 0.6s ease forwards;
 }
 
 /* Inputs */
@@ -44,18 +46,24 @@
 .modal input[type="email"] {
     margin-bottom: 1rem;
     padding: 1rem 1.2rem;
-    border: none;
+    border: 1px solid var(--border);
     border-radius: 10px;
-    background: #d7e57a;
+    background: var(--bg-fields);
+    color: var(--text-primary);
     font-size: 1rem;
     transition: all 0.3s ease-in-out;
+}
+
+.modal input::placeholder {
+    color: var(--text-secondary);
 }
 
 .modal input[type="text"]:focus,
 .modal input[type="email"]:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.2);
-    background: #e1ee95;
+    border-color: var(--bg-fields-focus);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+    background: var(--bg-fields);
 }
 
 /* Labels & checkboxes */
@@ -71,9 +79,13 @@
 }
 
 .modal input[type="checkbox"] {
-    accent-color: var(--text-primary);
+    accent-color: var(--color-accent);
     transform: scale(1.2);
     transition: transform 0.3s ease;
+}
+
+.modal input[type="checkbox"]:checked {
+    accent-color: var(--text-primary);
 }
 
 .modal input[type="checkbox"]:hover {
@@ -82,7 +94,7 @@
 
 /* Buttons */
 .modal button[type="submit"] {
-    background: var(--background);
+    background: var(--button);
     color: var(--text-primary);
     border: none;
     border-radius: 12px;
@@ -93,26 +105,28 @@
     margin: 1.5rem auto 0;
     display: block;
     text-transform: uppercase;
+    font-weight: 600;
     transition: all 0.3s ease-in-out;
 }
 
 .modal button[type="submit"]:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    filter: brightness(1.1);
 }
 
 .modal button:not([type="submit"]) {
     margin-top: 1rem;
     background: transparent;
     border: none;
-    color: #333;
+    color: var(--text-secondary);
     cursor: pointer;
     font-size: 0.95rem;
     transition: color 0.3s ease;
 }
 
 .modal button:not([type="submit"]):hover {
-    color: #000;
+    color: var(--text-primary);
 }
 
 /* Close button */
@@ -127,12 +141,16 @@
     background: transparent;
     border: none;
     font-size: 1.8rem !important;
-    color: var(--background);
+    color: var(--text-primary);
     cursor: pointer;
     z-index: 10;
     padding: 0;
     line-height: 1;
     transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.closeButton:hover {
+    color: var(--color-accent);
 }
 
 /* Animations */

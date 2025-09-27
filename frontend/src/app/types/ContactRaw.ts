@@ -5,4 +5,5 @@ export interface ContactRaw {
     email: string;
     favorite: boolean;
     profile_image_url?: string;
+    picture?: string
 }

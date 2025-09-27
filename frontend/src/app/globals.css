@@ -13,6 +13,13 @@
     /* Convenience variables */
     --background: var(--bg-primary);
     --foreground: var(--text-primary);
+
+    /* Variables for the NewContact form */
+    --bg-form: #c1d72f;
+    --bg-fields: #d7e57a;
+    --bg-fields-focus: #e1ee95;
+    --bg-text: #a0a0a0;
+    --button: #ffffff
 }
 
 /* ==============================
@@ -29,6 +36,16 @@
         --text-secondary: #a1a1a6;     /* Subtle platinum gray */
         --background: var(--bg-primary);
         --foreground: var(--text-primary);
+
+        /* Variables for the NewContact form */
+        --bg-form: #141414;            /* Slightly softer black than bg-primary */
+        --bg-fields: #222226;          /* Neutral dark gray for inputs */
+        --bg-fields-focus: #d4af37;    /* Accent gold border/focus */
+        --bg-text: #e0e0e0;            /* Light gray for text inside fields */
+        --button: #a4161a;             /* Deep red button for contrast */
+        --button-hover: #d4af37;       /* Gold hover for emphasis */
+        --placeholder: #6c6c70;        /* Muted gray for placeholders */
+        --border: #2e2e32;             /* Subtle border color for inputs/cards */
     }
 
 

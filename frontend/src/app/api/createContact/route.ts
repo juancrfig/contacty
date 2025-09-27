@@ -22,8 +22,10 @@ export async function POST(request: NextRequest) {
         }
 
         // Forward the request to the real Flask API on Render
+        const picture = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
         const apiResponse = await fetch(`${apiUrl}/contacts`, {
-            method: 'POST',
+
+        method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 // 2. Add the cookie to the outgoing request to your Flask API
@@ -32,7 +34,7 @@ export async function POST(request: NextRequest) {
             },
             // 💡 FIX: Map the camelCase variables (firstName, lastName)
             // to the snake_case keys (first_name, last_name) expected by the Flask backend
-            body: JSON.stringify({ first_name: firstName , last_name: lastName, email, favorite }),
+            body: JSON.stringify({ first_name: firstName , last_name: lastName, email, favorite, profile_image_url: picture }),
         });
 
         // Get the JSON data from the API response regardless of status
