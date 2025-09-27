@@ -81,6 +81,30 @@ export default function LoginPage() {
         }
     };
 
+    const handleSkipLogin = async () => {
+        setIsLoading(true);
+        setToast(null);
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: 'juanes', password: 'dragon18' }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                setToast({ message: data.message || 'Demo login failed. Please try later', type: 'error' });
+                return;
+            }
+            router.push('/overview');
+        } catch (err) {
+            setToast({ message: 'An unexpected network error occurred.', type: 'error'});
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <>
             {toast && (
@@ -123,6 +147,14 @@ export default function LoginPage() {
                     </p>
                 </div>
             </div>
+
+            <button
+                onClick={handleSkipLogin}
+                className={styles.skipButton}
+                disabled={isLoading}
+            >
+                SKIP
+            </button>
         </>
     );
 }

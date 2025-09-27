@@ -134,3 +134,35 @@
 .toggleButton:hover {
     text-decoration: underline;
 }
+
+/* === Skip Button Styles === */
+
+.skipButton {
+    position: fixed; /* Positions relative to the viewport */
+    bottom: 2rem;
+    right: 2rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--text-primary);
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.skipButton:hover:not(:disabled) {
+    transform: translateY(-8px); /* Slight lift on hover */
+}
+
+.skipButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}

@@ -14,7 +14,7 @@ interface ContactContextType {
         lastName: string;
         email: string;
         favorite: boolean,
-        picture: string
+        picture?: string
     }) => Promise<void>;
     handleRemoveContact: (id: number) => void;
     handleToggleFavorite: (id: number) => void;
@@ -80,15 +80,16 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
         lastName: string;
         email: string;
         favorite: boolean;
-        picture: string;
+        picture?: string;
     })=> {
+        const picture = contactData.picture ?? 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
         // 1. Create a temporary contact with a unique temporary ID
         // We'll use this to identify it in the UI before we get the real ID from the server
         const tempId = Date.now();
         const tempContact: Contact = {
             ...contactData,
             id: tempId,
-            picture: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
+            picture
         };
         // 2. Optimistically update the UI immediately with the temporary contact
         setContacts(prev => [...prev, tempContact]);
@@ -117,7 +118,7 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
                 lastName: rawContact.last_name,
                 email: rawContact.email,
                 favorite: rawContact.favorite,
-                picture: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
+                picture
             };
 
             // 5. Swap the temporary contact with the fina one in the state
