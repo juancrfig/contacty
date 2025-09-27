@@ -22,11 +22,14 @@ const List = ({ title }: ListProps) => {
 
     // Memoize the filtering logic to avoid re-calculating on every render
     const filteredContacts = useMemo(() => {
+        // Default to an empty array to prevent error on initial render
+        const contactList = contacts || [];
+
         if (title === 'Favorites') {
-            return contacts.filter(contact => contact.favorite);
+            return contacts.filter(contact => contact && contact.favorite);
         }
         // For the 'Contacts' list, now we only show non-favorites
-        return contacts.filter(contact => !contact.favorite);
+        return contacts.filter(contact => contact && !contact.favorite);
     }, [contacts, title]);
 
     if (isLoading) return <p>Loading...</p>;

@@ -31,6 +31,10 @@
     position: relative;
     padding: 4px; /* Creates space for the border */
     border-radius: 50%;
+    background: linear-gradient(45deg, var(--text-secondary));
+}
+
+.favoriteBorder {
     background: linear-gradient(45deg, var(--color-accent));
 }
 
@@ -38,7 +42,6 @@
 .avatar {
     border-radius: 50%;
     display: block;
-    border: 3px solid var(--background); /* Creates an inner border effect */
 }
 
 /* Placeholder for when no image is available */

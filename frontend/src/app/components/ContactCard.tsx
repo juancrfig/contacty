@@ -56,6 +56,27 @@ const ContactCard: React.FC<ContactCardProps> = ({
     const Actions = () => {
         switch (variant) {
             case 'contacts':
+                if (pathname.endsWith('/contacts')) {
+                    return (
+                        <>
+                            <hr className={styles.divider} />
+                                {favorite ? (
+                                    <button onClick={() => onToggleFavorite(id)} className={styles.removeButton}>
+                                        <span className={styles.removeIcon}>&times;</span>REMOVE
+                                    </button>
+                                ) : (
+                                    <div className={styles.iconActions}>
+                                        <button
+                                            onClick={() => onToggleFavorite(id)}
+                                            className={`${styles.iconButton} ${styles.favoriteButton}`}
+                                        >
+                                            <FaHeart size={18} />
+                                        </button>
+                                    </div>
+                                )}
+                        </>
+                    );
+                }
                 return (
                     <>
                         <hr className={styles.divider} />
@@ -79,7 +100,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
                 return (
                     <>
                         <hr className={styles.divider} />
-                        <button onClick={() => onRemove(id)} className={styles.removeButton}>
+                        <button onClick={() => onToggleFavorite(id)} className={styles.removeButton}>
                             <span className={styles.removeIcon}>&times;</span> REMOVE
                         </button>
                     </>
@@ -90,7 +111,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
                     <>
                         <hr className={styles.divider} />
                         {favorite ? ( // Changed from isFavorite
-                            <button onClick={() => onRemove(id)} className={styles.removeButton}>
+                            <button onClick={() => onToggleFavorite(id)} className={styles.removeButton}>
                                 <span className={styles.removeIcon}>&times;</span> REMOVE
                             </button>
                         ) : (
