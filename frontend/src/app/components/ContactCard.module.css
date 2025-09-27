@@ -262,9 +262,15 @@
 
 .deleteButton,
 .iconButton,
-.favoriteButton {
+.favoriteButton,
+.exButton {
     transition: all 0.25s ease-in-out;
     cursor: pointer;
+}
+
+.exButton {
+    color: var(--color-danger);
+    padding: 0.5rem;
 }
 
 .deleteButton {
