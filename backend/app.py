@@ -1,4 +1,5 @@
 import os, secrets, datetime
+from datetime import timedelta
 from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
@@ -41,6 +42,7 @@ def create_app(db_url=None):
     if not key:
         raise ValueError("JWT_SECRET_KEY is not set in the environment")
     app.config["JWT_SECRET_KEY"] = key
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=6)
 
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
