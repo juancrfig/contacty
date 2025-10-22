@@ -1,10 +1,11 @@
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import g
 from backend.models.db import db
 from backend.models.contacts import Contacts
 from backend.resources.schemas import ContactUpdateSchema, ContactImageSchema
+from backend.resources.supabase_auth import supabase_auth_required
 from .schemas import ContactSchema
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -14,21 +15,21 @@ blp = Blueprint("contacts", __name__, description="Operations related to contact
 
 @blp.route("/test-auth")
 class AuthTest(MethodView):
-    @jwt_required()
+    @supabase_auth_required
     def get(self):
         """A simple endpoint to verify JWT authentication."""
-        current_user_id = get_jwt_identity()
+        current_user_id = g.user_id
         return {"message": "Authentication successful!", "user_id": current_user_id}
 
 @blp.route("/contacts")
 class ContactList(MethodView):
 
-    @jwt_required()
+    @supabase_auth_required
     @blp.response(200, ContactSchema(many=True))
     def get(self):
         """Retrieves all contacts for the current user, optionally filtering favorites"""
         favorite_param = request.args.get("favorite")  # e.g., ?favorite=true
-        current_user_id = get_jwt_identity() # Get user id from JWT
+        current_user_id = g.user_id # Get user id from JWT
 
         query = Contacts.query.filter_by(user_id=current_user_id)
 
@@ -38,13 +39,13 @@ class ContactList(MethodView):
 
         return query.all()
 
-    @jwt_required()
+    @supabase_auth_required
     @blp.arguments(ContactSchema)
     @blp.response(201, ContactSchema)
     def post(self, contact_data):
         """Creates a new contact"""
         # The database can enforce email uniqueness, which is more reliable
-        user_id = get_jwt_identity()
+        user_id = g.user_id
 
         if Contacts.query.filter(Contacts.email == contact_data["email"]).first():
             abort(409, message="A contact with that email already exists")
@@ -63,7 +64,7 @@ class ContactList(MethodView):
 @blp.route("/contacts/<int:contact_id>")
 class Contact(MethodView):
 
-    @jwt_required()
+    @supabase_auth_required
     @blp.response(200, ContactSchema)
     def delete(self, contact_id):
         """Deletes a contact by its ID"""
@@ -74,7 +75,7 @@ class Contact(MethodView):
         return {"message": "Contact deleted successfully"}, 200
 
 
-    @jwt_required()
+    @supabase_auth_required
     @blp.response(200, ContactSchema)
     def patch(self, contact_id):
         """Updates an existing contact's favorite state by ID"""
@@ -92,7 +93,7 @@ class Contact(MethodView):
 @blp.route("/contacts/<int:contact_id>/url")
 class ContactImage(MethodView):
 
-    @jwt_required()
+    @supabase_auth_required
     @blp.arguments(ContactImageSchema)
     @blp.response(200, ContactSchema)
     def patch(self, data, contact_id):
@@ -100,7 +101,7 @@ class ContactImage(MethodView):
         contact = Contacts.query.get_or_404(contact_id)
 
         # make sure the contact belongs to the logged-in user
-        current_user_id = int(get_jwt_identity())
+        current_user_id = int(g.user_id)
         if contact.user_id != current_user_id:
             abort(403, message="You are not authorized to update this contact.")
 

@@ -4,7 +4,7 @@ python-dotenv
 flask-sqlalchemy
 sqlalchemy
 marshmallow
-flask-jwt-extended
+PyJWT>=2.0.0
 Flask-Cors
 passlib
 requests
